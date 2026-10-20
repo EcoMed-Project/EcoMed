@@ -10,7 +10,6 @@ const placeCache = new Map();
 app.disable("x-powered-by");
 app.use(express.json({ limit: "32kb" }));
 app.use(express.static(path.join(__dirname, "public"), { extensions: ["html"] }));
-app.use("/media", express.static(path.join(__dirname, "src", "assets")));
 
 const demoPoints = [{ id: "demo-vm", name: "Ponto demonstrativo — EcoMed", address: "Use a busca para encontrar pontos reais próximos", lat: -23.5505, lng: -46.6333, kind: "Demonstração", source: "demo" }];
 const onlyDigits = (value) => String(value || "").replace(/\D/g, "");
