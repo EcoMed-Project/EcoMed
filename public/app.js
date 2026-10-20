@@ -3,6 +3,15 @@ let markers;
 const status = document.querySelector("#status");
 const list = document.querySelector("#place-list");
 
+const revealTargets = document.querySelectorAll("main > section, .cards article, .hero-photo");
+revealTargets.forEach((element) => element.classList.add("reveal"));
+if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+    if (entry.isIntersecting) { entry.target.classList.add("is-visible"); observer.unobserve(entry.target); }
+  }), { threshold: 0.12 });
+  revealTargets.forEach((element) => observer.observe(element));
+} else { revealTargets.forEach((element) => element.classList.add("is-visible")); }
+
 function setStatus(message, error = false) { if (status) { status.textContent = message; status.style.color = error ? "#b42318" : ""; } }
 function initMap() {
   if (!window.L || !document.querySelector("#map") || map) return;
