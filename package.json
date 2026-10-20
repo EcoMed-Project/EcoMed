@@ -1,0 +1,14 @@
+{
+  "name": "ecomed-brasil",
+  "version": "1.0.0",
+  "private": true,
+  "description": "EcoMed Brasil — orientação e localização para descarte consciente de medicamentos.",
+  "type": "module",
+  "scripts": {
+    "start": "npm install --no-audit --no-fund && node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": { "express": "^5.1.0" }
+}

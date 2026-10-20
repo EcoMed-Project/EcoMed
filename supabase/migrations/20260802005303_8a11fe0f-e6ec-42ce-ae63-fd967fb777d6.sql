@@ -1,0 +1,15 @@
+INSERT INTO public.inventory (health_post_id, medicine_name, dosage, quantity, unit, expiry_date, points_cost) VALUES
+('5fab1c11-a433-4f47-a470-c6ea1991ac9f','Dipirona Sódica','500 mg',24,'caixa(s)','2027-05-31',10),
+('5fab1c11-a433-4f47-a470-c6ea1991ac9f','Amoxicilina','500 mg',12,'caixa(s)','2027-01-31',20),
+('40928a9b-f623-40fd-9f51-7d927bce6bd1','Paracetamol','750 mg',30,'caixa(s)','2027-08-31',10),
+('40928a9b-f623-40fd-9f51-7d927bce6bd1','Losartana Potássica','50 mg',18,'caixa(s)','2027-03-31',15),
+('c8e87974-a016-4493-917c-cbbfe94c66d7','Omeprazol','20 mg',22,'caixa(s)','2027-06-30',10),
+('1aca5e44-5700-45c8-806e-f554a992cce3','Ibuprofeno','600 mg',16,'caixa(s)','2026-12-31',12),
+('67d1eca4-76d9-4217-9659-42a47f3dca5c','Metformina','850 mg',20,'caixa(s)','2027-09-30',15),
+('2407b05c-742f-4714-af29-c9b1463d1dc3','Sinvastatina','20 mg',14,'caixa(s)','2027-04-30',15),
+('2407b05c-742f-4714-af29-c9b1463d1dc3','Soro Fisiológico 0,9%','500 ml',40,'frasco(s)','2028-02-29',5),
+('edf088bd-df3f-44c1-9f60-287cac3e4c7b','Captopril','25 mg',26,'caixa(s)','2027-07-31',12),
+('f81aa427-9d6d-4fb7-a5da-c949a87b9b2e','Amoxicilina + Clavulanato','875 mg',9,'caixa(s)','2026-11-30',25),
+('c0e50a23-cf36-4a2f-8b23-051dc76fb19a','Salbutamol (spray)','100 mcg',11,'frasco(s)','2027-10-31',20),
+('6abcd96d-8d86-40a5-b072-69bdd418f039','Prednisona','20 mg',13,'caixa(s)','2027-02-28',18),
+('6abcd96d-8d86-40a5-b072-69bdd418f039','Vitamina D','2000 UI',28,'frasco(s)','2028-01-31',8);
