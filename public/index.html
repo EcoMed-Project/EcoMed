@@ -1,22 +1,167 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Orientação e localização para descarte consciente de medicamentos."><link rel="icon" href="/favicon.png" type="image/png">
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Orientação e localização para descarte consciente de medicamentos.">
   <title>EcoMed Brasil — Descarte consciente</title>
-  <link rel="preconnect" href="https://unpkg.com"><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ0Oq5lFQ0W7S1sA6F0sVbNKDz3uE2g=" crossorigin="">
-  <link rel="stylesheet" href="/styles.css"><link rel="stylesheet" href="/motion.css">
+  <link rel="preconnect" href="https://unpkg.com">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="stylesheet" href="/styles.css">
+<script src="/ui.js" defer>
+</script>
 </head>
 <body>
   <a class="skip" href="#conteudo">Pular para o conteúdo</a>
-  <header class="header"><a class="brand brand-image" href="/" aria-label="EcoMed Brasil, início"><img src="/assets/logo-ecomed.jfif" alt="EcoMed Brasil"></a><nav aria-label="Navegação principal"><a href="/descarte.html">Descarte</a><a href="/recipiente.html">Recipiente</a><a href="/aprender.html">Aprender</a><a href="/sobre.html">Sobre</a></nav><details class="mobile-menu"><summary aria-label="Abrir menu">Menu</summary><a href="/descarte.html">Descarte</a><a href="/recipiente.html">Recipiente</a><a href="/aprender.html">Aprender</a><a href="/sobre.html">Sobre</a></details><a class="header-cta" href="/descarte.html">Encontrar ponto</a></header>
+  <header class="header">
+<a class="brand" href="/" aria-label="EcoMed Brasil — início">
+<img src="/assets/logo-ecomed.jfif" width="424" height="133" alt="EcoMed Brasil">
+</a>
+<nav aria-label="Navegação principal">
+<a href="/" aria-current="page">Início</a>
+<a href="/descarte.html">Descarte</a>
+<a href="/recipiente.html">Recipiente</a>
+<a href="/aprender.html">Aprender</a>
+<a href="/sobre.html">Sobre</a>
+</nav>
+<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-navigation">Menu<span aria-hidden="true">
+</span>
+</button>
+<nav id="mobile-navigation" class="mobile-navigation" aria-label="Navegação móvel" hidden>
+<a href="/" aria-current="page">Início</a>
+<a href="/descarte.html">Descarte</a>
+<a href="/recipiente.html">Recipiente</a>
+<a href="/aprender.html">Aprender</a>
+<a href="/sobre.html">Sobre</a>
+<a href="/privacidade.html">Privacidade</a>
+</nav>
+</header>
   <main id="conteudo">
-    <section class="hero" id="inicio"><div class="hero-copy"><p class="eyebrow">Tecnologia a serviço do descarte consciente</p><h1>O caminho certo para medicamentos que não têm mais lugar na sua casa.</h1><p class="lead">O EcoMed orienta cada etapa: entenda o descarte, encontre locais próximos e conheça o recipiente que ajuda a separar as embalagens.</p><div class="actions"><a class="button primary" href="#descarte">Encontrar ponto de descarte</a><a class="button ghost" href="#recipiente">Como funciona o recipiente</a></div><p class="fine">Projeto educacional. Confirme sempre com o local se ele recebe medicamentos.</p></div><figure class="hero-photo"><img src="/assets/hero-equipe.jfif" alt="Equipe de saúde organizando medicamentos em ambiente clínico"><figcaption>Imagem fornecida pela equipe EcoMed.</figcaption></figure></section>
-    <section class="section orientation" aria-labelledby="orientacao"><p class="eyebrow">Antes de sair</p><h2 id="orientacao">Como preparar o descarte</h2><p class="section-intro">Não descarte medicamentos no vaso sanitário, na pia ou no lixo comum. Mantenha-os na embalagem e leve-os a um local que confirme o recebimento.</p><div class="cards"><article><span>01</span><h3>Separe com cuidado</h3><p>Junte medicamentos vencidos, sem uso ou sobras de tratamento. Não abra, misture ou despeje o conteúdo.</p></article><article><span>02</span><h3>Localize um ponto</h3><p>Use o CEP ou sua localização. A lista usa dados do OpenStreetMap e precisa de confirmação direta.</p></article><article><span>03</span><h3>Entregue no local</h3><p>No ponto indicado, siga a orientação da equipe. O recipiente EcoMed separa o tipo de embalagem, não identifica medicamentos.</p></article></div></section>
-    <section class="finder" id="descarte" aria-labelledby="titulo-descarte"><div class="finder-heading"><p class="eyebrow">Localização opcional</p><h2 id="titulo-descarte">Encontre locais perto de você</h2><p>Não guardamos sua localização. Ela é usada somente nesta busca para consultar dados públicos.</p></div><div class="search-panel"><form id="cep-form"><label for="cep">Seu CEP</label><div class="search-row"><input id="cep" inputmode="numeric" autocomplete="postal-code" maxlength="9" placeholder="00000-000"><button class="button primary" type="submit">Buscar por CEP</button></div></form><div class="divider"><span>ou</span></div><button id="location-button" class="button outline" type="button">Usar minha localização</button><p id="status" class="status" role="status" aria-live="polite">Informe um CEP ou autorize a localização.</p></div><div class="results"><div id="map" aria-label="Mapa com locais de referência"></div><div class="places"><h3>Locais encontrados</h3><p class="map-note">A lista é a referência principal e funciona mesmo sem o mapa.</p><div id="place-list" aria-live="polite"><div class="empty">Sua busca aparecerá aqui.</div></div></div></div></section>
-    <section class="section container-section" id="recipiente" aria-labelledby="titulo-recipiente"><div><p class="eyebrow">Recipiente inteligente</p><h2 id="titulo-recipiente">Identifica o material da embalagem. A decisão final continua sendo segura.</h2><p class="section-intro">A câmera classifica a embalagem como vidro ou caixa/embalagem. Com baixa confiança, câmera indisponível ou compartimento cheio, a tampa não abre.</p></div><div class="simulator"><div class="sim-top"><span class="dot"></span><strong>SIMULADOR LOCAL</strong><small>não pontua usuários</small></div><fieldset><legend>Teste uma decisão segura</legend><label><input type="radio" name="material" value="glass"> Frasco de vidro</label><label><input type="radio" name="material" value="packaging"> Caixa ou embalagem</label><label><input type="radio" name="material" value="unknown" checked> Não tenho certeza</label></fieldset><label class="switch"><input id="camera" type="checkbox" checked> Câmera disponível</label><label class="switch"><input id="capacity" type="checkbox" checked> Compartimento disponível</label><button class="button primary" id="simulate" type="button">Verificar separação</button><div class="decision" id="decision" role="status" aria-live="polite">A tampa permanece fechada até uma decisão segura.</div></div></section>
-    <section class="about" id="sobre"><div><p class="eyebrow">EcoMed Brasil</p><h2>Aplicativo e recipiente: uma jornada, duas soluções.</h2></div><p>O aplicativo orienta e ajuda a localizar pontos. O recipiente auxilia a separar embalagens no momento da entrega. É um projeto educacional e não substitui a orientação de profissionais ou dos locais de coleta.</p></section>
+    <section class="hero" id="inicio">
+<div class="hero-copy">
+<p class="eyebrow">Tecnologia a serviço do descarte consciente</p>
+<h1>O caminho certo para medicamentos que não têm mais lugar na sua casa.</h1>
+<p class="lead">O EcoMed orienta cada etapa: entenda o descarte, encontre locais próximos e conheça o recipiente que ajuda a separar as embalagens.</p>
+<div class="actions">
+<a class="button primary" href="#descarte">Encontrar ponto de descarte</a>
+<a class="button ghost" href="#recipiente">Como funciona o recipiente</a>
+</div>
+<p class="fine">Projeto educacional. Confirme sempre com o local se ele recebe medicamentos.</p>
+</div>
+<figure class="hero-photo">
+<img src="/assets/hero-equipe.jfif" alt="Equipe de saúde organizando medicamentos em ambiente clínico">
+<figcaption>Imagem fornecida pela equipe EcoMed.</figcaption>
+</figure>
+</section>
+    <section class="section orientation" aria-labelledby="orientacao">
+<p class="eyebrow">Antes de sair</p>
+<h2 id="orientacao">Como preparar o descarte</h2>
+<p class="section-intro">Não descarte medicamentos no vaso sanitário, na pia ou no lixo comum. Mantenha-os na embalagem e leve-os a um local que confirme o recebimento.</p>
+<div class="cards">
+<article>
+<span>01</span>
+<h3>Separe com cuidado</h3>
+<p>Junte medicamentos vencidos, sem uso ou sobras de tratamento. Não abra, misture ou despeje o conteúdo.</p>
+</article>
+<article>
+<span>02</span>
+<h3>Localize um ponto</h3>
+<p>Use o CEP ou sua localização. A lista usa dados do OpenStreetMap e precisa de confirmação direta.</p>
+</article>
+<article>
+<span>03</span>
+<h3>Entregue no local</h3>
+<p>No ponto indicado, siga a orientação da equipe. O recipiente EcoMed separa o tipo de embalagem, não identifica medicamentos.</p>
+</article>
+</div>
+</section>
+    <section class="finder" id="descarte" aria-labelledby="titulo-descarte">
+<div class="finder-heading">
+<p class="eyebrow">Localização opcional</p>
+<h2 id="titulo-descarte">Encontre locais perto de você</h2>
+<p>Não guardamos sua localização. Ela é usada somente nesta busca para consultar dados públicos.</p>
+</div>
+<div class="search-panel">
+<form id="cep-form">
+<label for="cep">Seu CEP</label>
+<div class="search-row">
+<input id="cep" inputmode="numeric" autocomplete="postal-code" maxlength="9" placeholder="00000-000">
+<button class="button primary" type="submit">Buscar por CEP</button>
+</div>
+</form>
+<div class="divider">
+<span>ou</span>
+</div>
+<button id="location-button" class="button outline" type="button">Usar minha localização</button>
+<p id="status" class="status" role="status" aria-live="polite">Informe um CEP ou autorize a localização.</p>
+</div>
+<div class="results">
+<div id="map" aria-label="Mapa com locais de referência">
+</div>
+<div class="places">
+<h3>Locais encontrados</h3>
+<p class="map-note">A lista é a referência principal e funciona mesmo sem o mapa.</p>
+<div id="place-list" aria-live="polite">
+<div class="empty">Sua busca aparecerá aqui.</div>
+</div>
+</div>
+</div>
+</section>
+    <section class="section container-section" id="recipiente" aria-labelledby="titulo-recipiente">
+<div>
+<p class="eyebrow">Recipiente inteligente</p>
+<h2 id="titulo-recipiente">Identifica o material da embalagem. A decisão final continua sendo segura.</h2>
+<p class="section-intro">A câmera classifica a embalagem como vidro ou caixa/embalagem. Com baixa confiança, câmera indisponível ou compartimento cheio, a tampa não abre.</p>
+</div>
+<div class="simulator">
+<div class="sim-top">
+<span class="dot">
+</span>
+<strong>SIMULADOR LOCAL</strong>
+<small>não pontua usuários</small>
+</div>
+<fieldset>
+<legend>Teste uma decisão segura</legend>
+<label>
+<input type="radio" name="material" value="glass"> Frasco de vidro</label>
+<label>
+<input type="radio" name="material" value="packaging"> Caixa ou embalagem</label>
+<label>
+<input type="radio" name="material" value="unknown" checked> Não tenho certeza</label>
+</fieldset>
+<label class="switch">
+<input id="camera" type="checkbox" checked> Câmera disponível</label>
+<label class="switch">
+<input id="capacity" type="checkbox" checked> Compartimento disponível</label>
+<button class="button primary" id="simulate" type="button">Verificar separação</button>
+<div class="decision" id="decision" role="status" aria-live="polite">A tampa permanece fechada até uma decisão segura.</div>
+</div>
+</section>
+    <section class="about" id="sobre">
+<div>
+<p class="eyebrow">EcoMed Brasil</p>
+<h2>Aplicativo e recipiente: uma jornada, duas soluções.</h2>
+</div>
+<p>O aplicativo orienta e ajuda a localizar pontos. O recipiente auxilia a separar embalagens no momento da entrega. É um projeto educacional e não substitui a orientação de profissionais ou dos locais de coleta.</p>
+</section>
   </main>
-  <footer><div><a class="brand" href="#inicio"><span>e</span>EcoMed <small>Brasil</small></a><p>Descarte correto, informação clara e sustentabilidade.</p></div><p>Dados de locais: © colaboradores do OpenStreetMap. Sem vínculo ou parceria implícita.</p></footer>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script><script src="/app.js"></script>
-</body></html>
+  <footer>
+<a class="brand" href="/" aria-label="EcoMed Brasil — início">
+<img src="/assets/logo-ecomed.jfif" width="424" height="133" alt="EcoMed Brasil">
+</a>
+<p>Informação que cuida.<br>Descarte que transforma.</p>
+<nav aria-label="Links do rodapé">
+<a href="/sobre.html">O projeto</a>
+<a href="/aprender.html">Orientações</a>
+<a href="/privacidade.html">Privacidade</a>
+</nav>
+<small>Projeto educacional · Dados geográficos: OpenStreetMap</small>
+</footer>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="">
+</script>
+<script src="/app.js">
+</script>
+</body>
+</html>

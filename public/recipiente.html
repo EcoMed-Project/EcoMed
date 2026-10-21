@@ -1,1 +1,112 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Entenda a separação segura feita pelo recipiente inteligente EcoMed."><title>Recipiente inteligente — EcoMed Brasil</title><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/styles.css"></head><body><a class="skip" href="#conteudo">Pular para o conteúdo</a><header class="header"><a class="brand" href="/"><span>e</span>EcoMed <small>Brasil</small></a><nav aria-label="Navegação principal"><a href="/descarte.html">Descarte</a><a aria-current="page" href="/recipiente.html">Recipiente</a><a href="/aprender.html">Aprender</a><a href="/sobre.html">Sobre</a></nav><details class="mobile-menu"><summary>Menu</summary><a href="/descarte.html">Descarte</a><a href="/aprender.html">Aprender</a><a href="/sobre.html">Sobre</a></details></header><main id="conteudo"><section class="page-hero dark"><p class="eyebrow">Tecnologia responsável</p><h1>O recipiente identifica o tipo de embalagem — não o medicamento.</h1><p>Com uma câmera, dois compartimentos, servos e LEDs, o EcoMed orienta a separação de vidro e caixas/embalagens. Na dúvida, não libera.</p></section><section class="process"><article><span>01</span><h2>Câmera observa</h2><p>A leitura acontece localmente. Nenhuma imagem precisa sair do dispositivo.</p></article><article><span>02</span><h2>Regra decide</h2><p>Somente uma classificação confiável e um compartimento disponível permitem a próxima etapa.</p></article><article><span>03</span><h2>LED orienta</h2><p>O LED e o texto indicam VIDRO ou CAIXAS/EMBALAGENS. A cor nunca é o único sinal.</p></article><article><span>04</span><h2>Servo abre</h2><p>A tampa correta abre apenas após uma decisão segura. Falha de câmera, dúvida ou lote cheio mantém tudo fechado.</p></article></section><section class="section container-section"><div><p class="eyebrow">Demonstração local</p><h2>Teste a máquina de segurança</h2><p class="section-intro">Este simulador é educativo e não representa conexão com hardware. Eventos dele não geram pontos.</p></div><div class="simulator"><div class="sim-top"><span class="dot"></span><strong>SIMULADOR LOCAL</strong><small>não pontua usuários</small></div><fieldset><legend>Teste uma decisão segura</legend><label><input type="radio" name="material" value="glass"> Frasco de vidro</label><label><input type="radio" name="material" value="packaging"> Caixa ou embalagem</label><label><input type="radio" name="material" value="unknown" checked> Não tenho certeza</label></fieldset><label class="switch"><input id="camera" type="checkbox" checked> Câmera disponível</label><label class="switch"><input id="capacity" type="checkbox" checked> Compartimento disponível</label><button class="button primary" id="simulate" type="button">Verificar separação</button><div class="decision" id="decision" role="status" aria-live="polite">A tampa permanece fechada até uma decisão segura.</div></div></section></main><footer><div><a class="brand" href="/"><span>e</span>EcoMed <small>Brasil</small></a><p>Descarte correto, informação clara e sustentabilidade.</p></div><p><a href="/privacidade.html">Privacidade</a></p></footer><script src="/app.js"></script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Entenda a separação segura feita pelo recipiente inteligente EcoMed.">
+<title>Recipiente inteligente — EcoMed Brasil</title>
+<link rel="icon" href="/favicon.png" type="image/png">
+<link rel="stylesheet" href="/styles.css">
+<script src="/ui.js" defer>
+</script>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<header class="header">
+<a class="brand" href="/" aria-label="EcoMed Brasil — início">
+<img src="/assets/logo-ecomed.jfif" width="424" height="133" alt="EcoMed Brasil">
+</a>
+<nav aria-label="Navegação principal">
+<a href="/">Início</a>
+<a href="/descarte.html">Descarte</a>
+<a href="/recipiente.html" aria-current="page">Recipiente</a>
+<a href="/aprender.html">Aprender</a>
+<a href="/sobre.html">Sobre</a>
+</nav>
+<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-navigation">Menu<span aria-hidden="true">
+</span>
+</button>
+<nav id="mobile-navigation" class="mobile-navigation" aria-label="Navegação móvel" hidden>
+<a href="/">Início</a>
+<a href="/descarte.html">Descarte</a>
+<a href="/recipiente.html" aria-current="page">Recipiente</a>
+<a href="/aprender.html">Aprender</a>
+<a href="/sobre.html">Sobre</a>
+<a href="/privacidade.html">Privacidade</a>
+</nav>
+</header>
+<main id="conteudo">
+<section class="page-hero dark">
+<p class="eyebrow">Tecnologia responsável</p>
+<h1>O recipiente identifica o tipo de embalagem — não o medicamento.</h1>
+<p>Com uma câmera, dois compartimentos, servos e LEDs, o EcoMed orienta a separação de vidro e caixas/embalagens. Na dúvida, não libera.</p>
+</section>
+<section class="process">
+<article>
+<span>01</span>
+<h2>Câmera observa</h2>
+<p>A leitura acontece localmente. Nenhuma imagem precisa sair do dispositivo.</p>
+</article>
+<article>
+<span>02</span>
+<h2>Regra decide</h2>
+<p>Somente uma classificação confiável e um compartimento disponível permitem a próxima etapa.</p>
+</article>
+<article>
+<span>03</span>
+<h2>LED orienta</h2>
+<p>O LED e o texto indicam VIDRO ou CAIXAS/EMBALAGENS. A cor nunca é o único sinal.</p>
+</article>
+<article>
+<span>04</span>
+<h2>Servo abre</h2>
+<p>A tampa correta abre apenas após uma decisão segura. Falha de câmera, dúvida ou lote cheio mantém tudo fechado.</p>
+</article>
+</section>
+<section class="section container-section">
+<div>
+<p class="eyebrow">Demonstração local</p>
+<h2>Teste a máquina de segurança</h2>
+<p class="section-intro">Este simulador é educativo e não representa conexão com hardware. Eventos dele não geram pontos.</p>
+</div>
+<div class="simulator">
+<div class="sim-top">
+<span class="dot">
+</span>
+<strong>SIMULADOR LOCAL</strong>
+<small>não pontua usuários</small>
+</div>
+<fieldset>
+<legend>Teste uma decisão segura</legend>
+<label>
+<input type="radio" name="material" value="glass"> Frasco de vidro</label>
+<label>
+<input type="radio" name="material" value="packaging"> Caixa ou embalagem</label>
+<label>
+<input type="radio" name="material" value="unknown" checked> Não tenho certeza</label>
+</fieldset>
+<label class="switch">
+<input id="camera" type="checkbox" checked> Câmera disponível</label>
+<label class="switch">
+<input id="capacity" type="checkbox" checked> Compartimento disponível</label>
+<button class="button primary" id="simulate" type="button">Verificar separação</button>
+<div class="decision" id="decision" role="status" aria-live="polite">A tampa permanece fechada até uma decisão segura.</div>
+</div>
+</section>
+</main>
+<footer>
+<a class="brand" href="/" aria-label="EcoMed Brasil — início">
+<img src="/assets/logo-ecomed.jfif" width="424" height="133" alt="EcoMed Brasil">
+</a>
+<p>Informação que cuida.<br>Descarte que transforma.</p>
+<nav aria-label="Links do rodapé">
+<a href="/sobre.html">O projeto</a>
+<a href="/aprender.html">Orientações</a>
+<a href="/privacidade.html">Privacidade</a>
+</nav>
+<small>Projeto educacional · Dados geográficos: OpenStreetMap</small>
+</footer>
+<script src="/app.js">
+</script>
+</body>
+</html>
