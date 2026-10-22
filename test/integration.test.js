@@ -1,13 +1,22 @@
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { once } from "node:events";
 
 let child;
 const origin = "http://127.0.0.1:31397";
 before(async () => {
   child = spawn(process.execPath, ["server.js"], { env: { ...process.env, PORT: "31397" }, stdio: ["ignore", "pipe", "pipe"] });
-  await Promise.race([once(child.stdout, "data"), once(child, "error").then(([error]) => { throw error; }), new Promise((_, reject) => { const timer = setTimeout(() => reject(new Error("Server startup timeout")), 15000); timer.unref(); })]);
+  await new Promise((resolve, reject) => {
+    let errors = "";
+    const timer = setTimeout(() => reject(new Error("Server startup timeout: " + errors)), 60000);
+    const fail = error => { clearTimeout(timer); reject(error); };
+    child.stderr.on("data", chunk => { errors += chunk; });
+    child.once("error", fail);
+    child.once("exit", code => fail(new Error(`Server exited (${code}): ${errors}`)));
+    child.stdout.on("data", chunk => {
+      if (String(chunk).includes("EcoMed Brasil em")) { clearTimeout(timer); resolve(); }
+    });
+  });
 });
 after(() => child?.kill());
 

@@ -33,7 +33,18 @@ Após instalar, use `npm run dev` para reiniciar o servidor automaticamente ao e
 
 Todas as páginas utilizam exclusivamente a logo e o favicon fornecidos pelo projeto. A foto da entrada também foi fornecida pela equipe.
 
-O CSS compartilhado define espaçamento, cores, tipografia, cartões, formulários e navegação adaptável. O menu móvel oferece estado expandido, fechamento por Escape e navegação por teclado. As revelações usam IntersectionObserver, com transições de aproximadamente 1,2 segundo e suporte a redução de movimento. O conteúdo permanece acessível quando JavaScript está desativado.
+O CSS compartilhado define espaçamento, cores, tipografia, cartões, formulários e navegação adaptável. O menu móvel oferece estado expandido, fechamento por Escape e navegação por teclado. O conteúdo permanece acessível quando JavaScript está desativado.
+
+### Movimento e interação
+
+- Entrada em cascata de cima para baixo, com título, texto, ações e fotografia entre 1,1 e 2 segundos.
+- Revelação das seções durante a rolagem, com IntersectionObserver e alternativa por posição para navegadores sem essa API.
+- Navegação por âncoras com aceleração e desaceleração entre 0,9 e 1,7 segundo, interrompida quando o visitante assume a rolagem.
+- Botões com elevação, brilho e resposta ao toque; menu móvel e respostas das perguntas frequentes animados.
+- Rolagem nativa preservada para mouse e toque, sem barra visual; indicador discreto do progresso de leitura.
+- Animações ativadas por padrão nesta experiência. O controle “Reduzir animações” no rodapé desativa os efeitos e salva a preferência neste navegador.
+
+A implementação não depende de bibliotecas de animação. Compatibilidade universal não pode ser garantida sem testes nos dispositivos e versões de navegador de destino.
 
 ## Tecnologias utilizadas
 
