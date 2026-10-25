@@ -38,7 +38,8 @@
 <p class="eyebrow">Privacidade</p>
 <h1>O mínimo necessário para localizar um ponto.</h1>
 <h2>Localização</h2>
-<p>O navegador pede autorização antes de compartilhar a localização. O EcoMed usa a coordenada somente para consultar locais próximos; o servidor não a grava em banco de dados.</p>
+<p>O navegador pede autorização antes de compartilhar a localização. O EcoMed usa a coordenada somente para consultar locais próximos; o servidor não a grava em banco de dados. Na busca combinada, a posição do aparelho é usada como referência e o CEP informa o endereço consultado.</p>
+<p>O CEP é enviado à BrasilAPI e ao ViaCEP. Quando necessário, o endereço é consultado no Nominatim para obter uma referência aproximada. Consultas de CEP resolvidas podem ficar em memória por até 24 horas. As coordenadas da busca são enviadas ao Overpass para consultar estabelecimentos próximos; os mapas usam o OpenStreetMap.</p>
 <h2>CEP</h2>
 <p>O CEP é enviado somente para a consulta de endereço e geocodificação. Não criamos perfil de usuário nem histórico de busca nesta versão.</p>
 <h2>Serviços consultados</h2>
