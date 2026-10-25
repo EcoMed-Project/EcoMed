@@ -1,4 +1,4 @@
-const headers = { "User-Agent": "EcoMedBrasil/1.0", "Accept-Language": "pt-BR" };
+const headers = { "User-Agent": "EcoMedBrasil/1.0 (+https://github.com/EcoMed-Project/EcoMed)", "Accept-Language": "pt-BR", Accept: "application/json" };
 export function coordinates(value) {
   const parts = String(value ?? "").split(",");
   if (parts.length !== 2 || parts.some(part => !part.trim())) return null;
@@ -80,8 +80,20 @@ export function createLocationService(request = fetch) {
   async function collectionPoints(origin) {
     const query = `[out:json][timeout:12];(nwr[amenity=pharmacy](around:6000,${origin.lat},${origin.lng});nwr[healthcare=pharmacy](around:6000,${origin.lat},${origin.lng}););out center tags;`;
     let data;
-    for (const host of ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"]) {
+    for (const host of ["https://overpass.private.coffee/api/interpreter", "https://overpass-api.de/api/interpreter"]) {
       try { data = await json(host, { method: "POST", body: new URLSearchParams({ data: query }), signal: AbortSignal.timeout(16000) }); if (Array.isArray(data.elements)) break; } catch {}
+    }
+    let limited = false;
+    if (!Array.isArray(data?.elements)) {
+      try {
+        const latitudeSpan = 6 / 111;
+        const longitudeSpan = 6 / (111 * Math.max(.1, Math.cos(origin.lat * Math.PI / 180)));
+        const results = await geocode({ amenity: "pharmacy", bounded: "1", limit: "40", addressdetails: "1", viewbox: `${origin.lng - longitudeSpan},${origin.lat + latitudeSpan},${origin.lng + longitudeSpan},${origin.lat - latitudeSpan}` });
+        if (Array.isArray(results)) {
+          data = { elements: results.map(item => ({ type: item.osm_type, id: item.osm_id, lat: Number(item.lat), lon: Number(item.lon), tags: { name: item.name || item.display_name?.split(",")[0], "addr:street": item.address?.road, "addr:housenumber": item.address?.house_number, "addr:suburb": item.address?.suburb } })) };
+          limited = true;
+        }
+      } catch {}
     }
     if (!Array.isArray(data?.elements)) throw new LocationError("A consulta de estabelecimentos está indisponível. Sua localização foi identificada; tente buscar novamente.");
     const unique = new Map();
@@ -91,7 +103,7 @@ export function createLocationService(request = fetch) {
       const id = `osm-${item.type}-${item.id}`;
       unique.set(id, { id, ...point, distanceKm: distanceKm(origin, point), name: item.tags?.name || "Farmácia mapeada no OpenStreetMap", address: [item.tags?.["addr:street"], item.tags?.["addr:housenumber"], item.tags?.["addr:suburb"]].filter(Boolean).join(", ") || "Endereço não informado no OpenStreetMap", phone: item.tags?.phone || null, hours: item.tags?.opening_hours || null, kind: "Confirme se recebe medicamentos", source: "OpenStreetMap" });
     }
-    return { origin, radiusKm: 6, points: [...unique.values()].sort((a, b) => a.distanceKm - b.distanceKm).slice(0, 50), notice: unique.size ? "Estabelecimentos mapeados em até 6 km, ordenados por distância em linha reta. Confirme diretamente se recebem medicamentos." : "Nenhum estabelecimento mapeado foi encontrado em até 6 km. Isso não significa que não existam locais de coleta na região." };
+    return { origin, radiusKm: 6, limited, points: [...unique.values()].sort((a, b) => a.distanceKm - b.distanceKm).slice(0, 50), notice: (unique.size ? "Estabelecimentos mapeados em até 6 km, ordenados por distância em linha reta. Confirme diretamente se recebem medicamentos." : "Nenhum estabelecimento mapeado foi encontrado em até 6 km. Isso não significa que não existam locais de coleta na região.") + (limited ? " Consulta alternativa pelo Nominatim: a lista pode ser parcial." : "") };
   }
   return { lookupCep, collectionPoints };
 }

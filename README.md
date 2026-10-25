@@ -81,7 +81,7 @@ package-lock.json     Versões das dependências
 
 A busca oferece três opções independentes: CEP, localização do aparelho e ambos. CEP não exige permissão de localização. O aparelho solicita uma posição nova com alta precisão e informa a margem de erro recebida. Na opção combinada, as distâncias usam a posição do aparelho; se uma fonte falhar, a outra pode concluir a busca. Coordenadas de CEP representam uma região aproximada, não um imóvel ou a posição exata da pessoa.
 
-BrasilAPI e ViaCEP são consultados em paralelo. A geocodificação alternativa usa consultas específicas ao Nominatim, limitadas a uma por segundo. Respostas de CEP resolvidas ficam em memória por até 24 horas. As coordenadas do aparelho não são armazenadas. Dois servidores Overpass são tentados para encontrar estabelecimentos em até 6 km, ordenados por distância em linha reta. Resultados vazios ou indisponíveis não são substituídos por pontos demonstrativos.
+BrasilAPI e ViaCEP são consultados em paralelo. A geocodificação alternativa usa consultas específicas ao Nominatim, limitadas a uma por segundo. Respostas de CEP resolvidas ficam em memória por até 24 horas. As coordenadas do aparelho não são armazenadas. Dois servidores Overpass são tentados para encontrar estabelecimentos em até 6 km, ordenados por distância em linha reta. Se ambos falharem, uma consulta delimitada pelo Nominatim oferece uma lista identificada como possivelmente parcial. Resultados vazios ou indisponíveis não são substituídos por pontos demonstrativos.
 
 | Método | Rota | Finalidade |
 | --- | --- | --- |

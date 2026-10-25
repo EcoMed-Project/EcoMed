@@ -66,3 +66,16 @@ test("no results and unavailable providers never fabricate a collection point", 
   assert.deepEqual(empty.points, []);
   await assert.rejects(createLocationService(async () => { throw new Error("offline"); }).collectionPoints({ lat: -22, lng: -47 }), error => error.status === 503);
 });
+test("Nominatim can recover nearby results when both Overpass hosts fail", async () => {
+  const service = createLocationService(async url => {
+    if (!url.includes("nominatim")) throw new Error("offline");
+    const query = new URL(url);
+    assert.equal(query.searchParams.get("bounded"), "1");
+    assert.equal(query.searchParams.get("amenity"), "pharmacy");
+    return ok([{ osm_type: "node", osm_id: 45, lat: "-22.8584", lon: "-47.22", name: "Farmácia", address: { road: "Rua local" } }]);
+  });
+  const result = await service.collectionPoints({ lat: -22.85833, lng: -47.22 });
+  assert.equal(result.points.length, 1);
+  assert.equal(result.limited, true);
+  assert.match(result.notice, /parcial/);
+});
