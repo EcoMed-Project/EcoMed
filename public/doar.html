@@ -136,7 +136,12 @@
 
             <div class="upload-area" id="upload-area">
               <input type="file" id="file-input" accept="image/*" multiple>
-              <div style="font-size:2rem;margin-bottom:8px">📷</div>
+              <div class="upload-icon-svg" style="margin-bottom:8px;color:var(--eco-teal)" aria-hidden="true">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                  <circle cx="12" cy="13" r="4"/>
+                </svg>
+              </div>
               <p style="color:var(--deep);font-weight:600;margin:0 0 4px">Clique ou arraste as fotos aqui</p>
               <p style="color:var(--muted);font-size:.82rem;margin:0">Formatos JPG ou PNG — até 3 fotos</p>
               <div class="upload-previews" id="previews"></div>
@@ -155,12 +160,17 @@
   <!-- SUCCESS SECTION -->
   <div id="success-doar" style="display:none;padding:40px 24px">
     <div class="success-box">
-      <div class="success-icon">🌱</div>
+      <div class="success-icon" aria-hidden="true">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#08794f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+      </div>
       <h2>Doação Registrada com Sucesso!</h2>
       <p style="color:var(--muted);font-size:1rem">Agradecemos profundamente pela sua solidariedade com a saúde comunitária.</p>
       
       <div style="background:var(--eco-teal-light);border:1.5px solid var(--eco-teal-border);border-radius:14px;padding:20px;margin:24px 0;text-align:center">
-        <p style="margin:0;font-weight:800;color:var(--eco-teal-dark);font-size:1.25rem">🎉 +25 EcoCoins adicionados à sua conta!</p>
+        <p style="margin:0;font-weight:800;color:var(--eco-teal-dark);font-size:1.25rem">+25 EcoCoins adicionados à sua conta com sucesso!</p>
         <p style="margin:6px 0 0;font-size:0.85rem;color:var(--muted)">Assim que o farmacêutico validar o medicamento na unidade, você receberá mais 30 EcoCoins bônus.</p>
       </div>
 
@@ -176,7 +186,7 @@
   <a class="brand" href="/" aria-label="EcoMed Brasil – início">
     <img src="/assets/logo-ecomed.jfif" width="424" height="133" alt="EcoMed Brasil">
   </a>
-  <p>Informação que cuida.<br>Descarte que transforma.</p>
+  <div class="footer-spacer" aria-hidden="true"></div>
   <nav aria-label="Links do rodapé">
     <a href="/sobre.html">O projeto</a>
     <a href="/aprender.html">Orientações</a>

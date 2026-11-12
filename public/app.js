@@ -124,7 +124,7 @@ function showOrigin(coords, device, meta = {}) {
 
   const isCepSearch = !device;
   const cepLabel = meta.cep ? `CEP ${meta.cep.slice(0, 5)}-${meta.cep.slice(5)}` : (meta.cepFormatted || "Ponto de Referência");
-  const title = isCepSearch ? `📍 ${cepLabel}` : "📍 Localização do Aparelho";
+  const title = isCepSearch ? cepLabel : "Localização do Dispositivo";
   const desc = meta.address || (isCepSearch ? "Ponto exato do CEP pesquisado" : "Sua posição atual");
 
   const cepIcon = createCepIcon();
@@ -134,7 +134,7 @@ function showOrigin(coords, device, meta = {}) {
   const popupContent = `
     <div style="font-family:inherit;min-width:210px;padding:4px 0">
       <div style="display:inline-block;background:#e11d48;color:#fff;font-size:0.72rem;font-weight:750;padding:3px 10px;border-radius:100px;margin-bottom:6px;letter-spacing:.03em">
-        📍 SEU PONTO DE BUSCA
+        SEU PONTO DE BUSCA
       </div>
       <div style="font-size:1.05rem;font-weight:750;color:#064b38;margin-bottom:4px">
         ${esc(title)}
@@ -166,7 +166,7 @@ function showOrigin(coords, device, meta = {}) {
       const pOpts = partnerIcon ? { icon: partnerIcon, zIndexOffset: 1200 } : { zIndexOffset: 1200 };
       L.marker([post.lat, post.lng], pOpts).addTo(markers).bindPopup(`
         <div style="font-family:inherit;min-width:200px">
-          <span style="display:inline-block;background:var(--eco-teal);color:#fff;font-size:0.7rem;font-weight:700;padding:2px 8px;border-radius:100px;margin-bottom:4px">★ REDE ECOMED</span>
+          <span style="display:inline-block;background:var(--eco-teal);color:#fff;font-size:0.7rem;font-weight:700;padding:2px 8px;border-radius:100px;margin-bottom:4px">REDE ECOMED</span>
           <strong style="display:block;color:var(--deep);font-size:0.98rem;margin-top:2px">${esc(post.name)}</strong>
           <p style="margin:4px 0 0;font-size:0.82rem;color:var(--muted)">${esc(post.address)}</p>
           <p style="margin:4px 0 0;font-size:0.8rem;color:var(--eco-teal);font-weight:600">Aproximadamente ${dist.toFixed(1)} km do seu CEP</p>
@@ -228,12 +228,12 @@ function renderPoints(data, device, meta = {}) {
       const marker = L.marker([point.lat, point.lng], markerOpts).addTo(markers).bindPopup(`
         <div style="font-family:inherit;min-width:190px">
           <span style="display:inline-block;background:${point.isPartner ? 'var(--eco-teal)' : '#10b981'};color:#fff;font-size:0.7rem;font-weight:700;padding:2px 8px;border-radius:100px;margin-bottom:4px">
-            ${point.isPartner ? '★ FARMÁCIA SOLIDÁRIA SUS' : '💊 FARMÁCIA / PONTO DE COLETA'}
+            ${point.isPartner ? 'FARMÁCIA SOLIDÁRIA SUS' : 'FARMÁCIA / PONTO DE COLETA'}
           </span>
           <strong style="display:block;color:var(--deep);font-size:0.96rem;margin-top:2px">${esc(point.name)}</strong>
           <p style="margin:4px 0 0;font-size:0.83rem;color:var(--muted);line-height:1.4">${esc(point.address)}</p>
           <div style="margin-top:6px;font-size:0.8rem;color:var(--deep);font-weight:600">
-            📍 ${Number.isFinite(point.distanceKm) ? point.distanceKm.toFixed(1) + ' km em linha reta' : ''}
+            ${Number.isFinite(point.distanceKm) ? point.distanceKm.toFixed(1) + ' km em linha reta' : ''}
           </div>
           <div style="margin-top:8px">
             <a target="_blank" rel="noopener noreferrer" href="https://www.openstreetmap.org/directions?to=${point.lat}%2C${point.lng}" style="color:var(--green);font-size:0.82rem;font-weight:700;text-decoration:underline">Ver rota no mapa →</a>

@@ -86,7 +86,7 @@
   <a class="brand" href="/" aria-label="EcoMed Brasil – início">
     <img src="/assets/logo-ecomed.jfif" width="424" height="133" alt="EcoMed Brasil">
   </a>
-  <p>Informação que cuida.<br>Descarte que transforma.</p>
+  <div class="footer-spacer" aria-hidden="true"></div>
   <nav aria-label="Links do rodapé">
     <a href="/sobre.html">O projeto</a>
     <a href="/aprender.html">Orientações</a>
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Queue
     var queueEl = document.getElementById('triagem-queue');
     if (!pending.length) {
-      queueEl.innerHTML = '<div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:32px;text-align:center"><p style="color:var(--muted);margin:0;font-size:1rem">✓ Todas as doações foram avaliadas! Não há itens pendentes no momento.</p></div>';
+      queueEl.innerHTML = '<div style="background:#fff;border:1px solid var(--line);border-radius:14px;padding:32px;text-align:center"><p style="color:var(--muted);margin:0;font-size:1rem">Todas as doações foram avaliadas. Não há itens pendentes no momento.</p></div>';
     } else {
       queueEl.innerHTML = pending.map(function(d) {
         var post = medsDb.getHealthPostById(d.post_id);
@@ -127,13 +127,13 @@ document.addEventListener('DOMContentLoaded', function () {
             '<span class="badge badge-pending">Triagem Pendente</span>' +
           '</div>' +
           '<div style="font-size:0.85rem;color:var(--muted);line-height:1.6">' +
-            '👤 Doador: <strong>' + d.donor_name + '</strong> (' + (d.donor_phone || '-') + ' · ' + (d.donor_email || '-') + ')<br>' +
-            '📍 Unidade destino: ' + (post ? post.name : 'Posto geral') + '<br>' +
-            '📅 Registrado em: ' + new Date(d.created_at).toLocaleString('pt-BR') +
+            'Doador: <strong>' + d.donor_name + '</strong> (' + (d.donor_phone || '-') + ' · ' + (d.donor_email || '-') + ')<br>' +
+            'Unidade destino: ' + (post ? post.name : 'Posto geral') + '<br>' +
+            'Registrado em: ' + new Date(d.created_at).toLocaleString('pt-BR') +
           '</div>' +
           '<div class="triagem-actions">' +
-            '<button class="btn-teal btn-aprovar" data-id="' + d.id + '">✓ Aprovar (+30 EcoCoins & Atualizar Estoque)</button>' +
-            '<button class="btn-outline-teal btn-recusar" data-id="' + d.id + '" style="color:#dc2626;border-color:#dc2626">✗ Recusar Doação</button>' +
+            '<button class="btn-teal btn-aprovar" data-id="' + d.id + '">Aprovar (+30 EcoCoins & Atualizar Estoque)</button>' +
+            '<button class="btn-outline-teal btn-recusar" data-id="' + d.id + '" style="color:#dc2626;border-color:#dc2626">Recusar Doação</button>' +
           '</div>' +
         '</div>';
       }).join('');

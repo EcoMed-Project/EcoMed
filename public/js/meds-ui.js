@@ -14,10 +14,10 @@
   };
 
   const TARIFF_ALERT = {
-    'isento':         '✓ Medicamento Isento de Prescrição (MIP) — disponível para orientação comunitária.',
-    'tarja-amarela':  '⚠ Medicamento Genérico / Tarja Amarela — requer apresentação de receita simples.',
-    'tarja-vermelha': '🔴 Medicamento sob Prescrição Médica — retenção ou apresentação de receita médica.',
-    'tarja-preta':    '🚫 Medicamento Controlado Especial — receita de controle especial em duas vias obrigatória.'
+    'isento':         'Medicamento Isento de Prescrição (MIP) — disponível para orientação comunitária.',
+    'tarja-amarela':  'Medicamento Genérico / Tarja Amarela — requer apresentação de receita simples.',
+    'tarja-vermelha': 'Medicamento sob Prescrição Médica — retenção ou apresentação de receita médica.',
+    'tarja-preta':    'Medicamento Controlado Especial — receita de controle especial em duas vias obrigatória.'
   };
 
   const FALLBACK_IMG = 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80';
@@ -66,13 +66,13 @@
     
     <div class="stock-status-wrap">
       ${inStock
-        ? `<span class="stock-ok">✓ Disponível (${medicine.stock} un.)</span>`
-        : `<span class="stock-out">✗ Indisponível no momento</span>`}
+        ? `<span class="stock-ok">Disponível (${medicine.stock} un.)</span>`
+        : `<span class="stock-out">Indisponível no momento</span>`}
     </div>
 
     <div class="medicine-card-meta">
-      <span class="ecocoins-pill">🌱 ${medicine.eco_coins} EcoCoins</span>
-      ${postName ? `<span class="post-pill" title="${esc(postName)}">📍 ${esc(postName)}</span>` : ''}
+      <span class="ecocoins-pill">${medicine.eco_coins} EcoCoins</span>
+      ${postName ? `<span class="post-pill" title="${esc(postName)}">${esc(postName)}</span>` : ''}
     </div>
 
     <div class="medicine-card-actions">
@@ -98,7 +98,7 @@
       <img src="${esc(imgUrl)}" alt="${esc(medicine.name)}" class="medicine-detail-img" onerror="this.onerror=null;this.src='${FALLBACK_IMG}'">
       <div style="margin-top:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
         ${this.renderTariffBadge(medicine.tariff)}
-        <span class="ecocoins-pill" style="font-size:0.95rem;padding:6px 16px">🌱 Vale ${medicine.eco_coins} EcoCoins ao doar</span>
+        <span class="ecocoins-pill" style="font-size:0.95rem;padding:6px 16px">Vale ${medicine.eco_coins} EcoCoins ao doar</span>
       </div>
     </div>
 
@@ -147,9 +147,9 @@
     : ''}
   <h4>${esc(post.name)}</h4>
   <div class="post-meta">
-    📍 ${esc(post.address)}<br>
-    🕐 ${esc(post.hours)}<br>
-    📞 ${esc(post.phone)}
+    Endereço: ${esc(post.address)}<br>
+    Horário: ${esc(post.hours)}<br>
+    Telefone: ${esc(post.phone)}
   </div>
 </div>`.trim();
     },
@@ -165,13 +165,13 @@
     ${distanceKm !== null && distanceKm !== undefined
       ? `<span class="distance-badge">${Number(distanceKm).toFixed(1)} km</span>`
       : '<span></span>'}
-    ${isSelected ? '<span style="color:var(--eco-teal);font-size:0.8rem;font-weight:700">✓ Selecionado</span>' : '<span style="color:var(--muted);font-size:0.8rem">Toque para selecionar</span>'}
+    ${isSelected ? '<span style="color:var(--eco-teal);font-size:0.8rem;font-weight:700">Selecionado</span>' : '<span style="color:var(--muted);font-size:0.8rem">Toque para selecionar</span>'}
   </div>
   <h4>${esc(post.name)}</h4>
   <div class="post-meta">
-    📍 ${esc(post.address)}<br>
-    🕐 ${esc(post.hours)}<br>
-    📞 ${esc(post.phone)}
+    Endereço: ${esc(post.address)}<br>
+    Horário: ${esc(post.hours)}<br>
+    Telefone: ${esc(post.phone)}
   </div>
 </div>`.trim();
     }

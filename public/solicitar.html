@@ -116,13 +116,18 @@
   <!-- SUCCESS SECTION -->
   <div id="success-section" style="display:none;padding:40px 24px">
     <div class="success-box">
-      <div class="success-icon">✅</div>
+      <div class="success-icon" aria-hidden="true">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#08794f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+      </div>
       <h2>Reserva Confirmada com Sucesso!</h2>
       <p style="color:var(--muted);font-size:0.95rem">Apresente o código abaixo na farmácia para retirar seu medicamento:</p>
       <div id="reservation-code" class="reservation-code">ECO-000-2026</div>
       <p id="success-post-info" style="color:var(--deep);font-size:.95rem;font-weight:600;margin:16px 0"></p>
       <div style="background:#f8faf9;border:1px solid var(--line);border-radius:12px;padding:14px;margin:20px 0;font-size:.88rem;color:var(--muted)">
-        ⏰ Válida por <strong>48 horas</strong>. Leve um documento oficial com foto e comprovante de receita médica (se aplicável).
+        Prazo de retirada: <strong>48 horas</strong>. Leve um documento oficial com foto e comprovante de receita médica (se aplicável).
       </div>
       <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:24px">
         <a href="/historico.html" class="btn-teal">Ver Meu Histórico</a>
@@ -136,7 +141,7 @@
   <a class="brand" href="/" aria-label="EcoMed Brasil – início">
     <img src="/assets/logo-ecomed.jfif" width="424" height="133" alt="EcoMed Brasil">
   </a>
-  <p>Informação que cuida.<br>Descarte que transforma.</p>
+  <div class="footer-spacer" aria-hidden="true"></div>
   <nav aria-label="Links do rodapé">
     <a href="/sobre.html">O projeto</a>
     <a href="/aprender.html">Orientações</a>
@@ -176,12 +181,12 @@ document.addEventListener('DOMContentLoaded', function () {
       var cost = med.eco_coins * qty;
       var sufficient = prof.eco_coins >= cost;
       ecInfo.style.display = 'block';
-      ecInfo.innerHTML = '🌱 Saldo atual: <strong>' + prof.eco_coins + ' EcoCoins</strong>. ' +
+      ecInfo.innerHTML = 'Saldo atual: <strong>' + prof.eco_coins + ' EcoCoins</strong>. ' +
         'Custo desta reserva: <strong>' + cost + ' EcoCoins</strong>. ' +
-        (sufficient ? '✓ Saldo suficiente para confirmação.' : '⚠ Saldo insuficiente. Selecione retirada presencial regular.');
+        (sufficient ? 'Saldo suficiente para confirmação.' : 'Saldo insuficiente. Selecione retirada presencial regular.');
     } else if (methodSel.value === 'cadunico') {
       ecInfo.style.display = 'block';
-      ecInfo.innerHTML = '🤝 <strong>Prioridade CadÚnico:</strong> Reserva prioritária e gratuita assegurada conforme as diretrizes do SUS Solidário.';
+      ecInfo.innerHTML = '<strong>Prioridade CadÚnico:</strong> Reserva prioritária e gratuita assegurada conforme as diretrizes do SUS Solidário.';
     } else {
       ecInfo.style.display = 'none';
     }
@@ -228,8 +233,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('success-section').style.display = 'block';
     document.getElementById('reservation-code').textContent = req.reservation_code;
     document.getElementById('success-post-info').textContent = post
-      ? '📍 ' + post.name + ' — ' + post.address + ' (' + post.hours + ')'
-      : '📍 Posto Integrado da Rede EcoMed';
+      ? post.name + ' — ' + post.address + ' (' + post.hours + ')'
+      : 'Posto Integrado da Rede EcoMed';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 });

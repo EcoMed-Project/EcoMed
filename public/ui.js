@@ -21,7 +21,7 @@ document.addEventListener("keydown", event => {
   if (event.key === "Escape" && navigation && !navigation.hidden) { closeMenu(); toggle.focus(); }
 });
 document.addEventListener("click", event => { if (!event.target.closest(".header")) closeMenu(); });
-const desktop = matchMedia("(min-width: 801px)");
+const desktop = matchMedia("(min-width: 1081px)");
 if (desktop.addEventListener) desktop.addEventListener("change", closeMenu);
 else desktop.addListener(closeMenu);
 
