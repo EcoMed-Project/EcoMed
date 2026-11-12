@@ -81,7 +81,7 @@ export function createLocationService(request = fetch) {
     const query = `[out:json][timeout:12];(nwr[amenity=pharmacy](around:6000,${origin.lat},${origin.lng});nwr[healthcare=pharmacy](around:6000,${origin.lat},${origin.lng}););out center tags;`;
     let data;
     for (const host of ["https://overpass.private.coffee/api/interpreter", "https://overpass-api.de/api/interpreter"]) {
-      try { data = await json(host, { method: "POST", body: new URLSearchParams({ data: query }), signal: AbortSignal.timeout(16000) }); if (Array.isArray(data.elements)) break; } catch {}
+      try { data = await json(host, { method: "POST", body: new URLSearchParams({ data: query }), signal: AbortSignal.timeout(7000) }); if (Array.isArray(data.elements)) break; } catch {}
     }
     let limited = false;
     if (!Array.isArray(data?.elements)) {
