@@ -46,106 +46,127 @@
   <!-- FORM SECTION -->
   <div id="form-section">
     <section class="page-banner">
-      <p class="eyebrow">Farmácia Solidária</p>
-      <h1>Doe um Medicamento</h1>
-      <p>Contribua com a rede solidária e ganhe <strong style="color:var(--eco-lime)">+25 EcoCoins</strong> pela sua doação.</p>
+      <div class="banner-inner">
+        <p class="eyebrow">Farmácia Solidária</p>
+        <h1>Doe um Medicamento</h1>
+        <p>Contribua com a rede solidária, evite o desperdício de insumos de saúde e ganhe <strong style="color:var(--eco-lime)">+25 EcoCoins</strong> por cada doação registrada.</p>
+      </div>
     </section>
 
     <div class="inner-page">
-      <form id="doar-form" style="max-width:640px">
+      <div style="max-width:920px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:24px;padding:clamp(24px, 4.5vw, 48px);box-shadow:0 8px 32px rgba(22, 60, 48, 0.04)">
+        <form id="doar-form">
+          <div style="border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:28px">
+            <h3 style="margin:0 0 8px;color:var(--deep);font-size:1.35rem">1. Dados do Medicamento</h3>
+            <p style="color:var(--muted);font-size:0.9rem;margin:0">Informe as características do medicamento lacrado ou em bom estado de conservação.</p>
 
-        <h3 style="margin-bottom:20px;color:var(--deep)">Dados do medicamento</h3>
+            <div style="margin-top:20px">
+              <div class="form-group">
+                <label for="don-med">Nome do medicamento ou princípio ativo</label>
+                <input id="don-med" type="text" required placeholder="Ex: Paracetamol, Ibuprofeno, Omeprazol...">
+              </div>
 
-        <div class="form-group">
-          <label for="don-med">Nome do medicamento</label>
-          <input id="don-med" type="text" required placeholder="Ex: Paracetamol 500mg">
-        </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px" class="grid-2col-mobile">
+                <div class="form-group">
+                  <label for="don-dosage">Dosagem / Concentração</label>
+                  <input id="don-dosage" type="text" required placeholder="Ex: 500mg, 20mg, 500mg/mL">
+                </div>
+                <div class="form-group">
+                  <label for="don-qty">Quantidade (unidades/caixas)</label>
+                  <input id="don-qty" type="number" min="1" value="1" required>
+                </div>
+              </div>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-          <div class="form-group">
-            <label for="don-dosage">Dosagem</label>
-            <input id="don-dosage" type="text" required placeholder="Ex: 500mg">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px" class="grid-2col-mobile">
+                <div class="form-group">
+                  <label for="don-expiry">Data de Validade</label>
+                  <input id="don-expiry" type="month" required>
+                </div>
+                <div class="form-group">
+                  <label for="don-lot">Número do Lote (opcional)</label>
+                  <input id="don-lot" type="text" placeholder="Ex: LOT2024B">
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="don-qty">Quantidade</label>
-            <input id="don-qty" type="number" min="1" value="1" required>
+
+          <div style="border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:28px">
+            <h3 style="margin:0 0 8px;color:var(--deep);font-size:1.35rem">2. Seus Dados de Doador</h3>
+            <p style="color:var(--muted);font-size:0.9rem;margin:0">Utilizados para creditar suas EcoCoins e acompanhar a aprovação farmacêutica.</p>
+
+            <div style="margin-top:20px">
+              <div class="form-group">
+                <label for="don-name">Seu nome completo</label>
+                <input id="don-name" type="text" required autocomplete="name" placeholder="Nome completo">
+              </div>
+
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px" class="grid-2col-mobile">
+                <div class="form-group">
+                  <label for="don-phone">Telefone de contato</label>
+                  <input id="don-phone" type="tel" required placeholder="(11) 90000-0000">
+                </div>
+                <div class="form-group">
+                  <label for="don-email">E-mail</label>
+                  <input id="don-email" type="email" required placeholder="seu@email.com">
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-          <div class="form-group">
-            <label for="don-expiry">Validade</label>
-            <input id="don-expiry" type="month" required>
+          <div style="border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:28px">
+            <h3 style="margin:0 0 8px;color:var(--deep);font-size:1.35rem">3. Unidade de Entrega</h3>
+            <p style="color:var(--muted);font-size:0.9rem;margin-bottom:16px">Selecione onde você levará a doação. Busque pelo seu CEP para ordenar por proximidade:</p>
+
+            <div style="display:flex;gap:12px;margin-bottom:16px;align-items:flex-end;flex-wrap:wrap">
+              <div class="form-group" style="flex:1;min-width:200px;margin-bottom:0">
+                <label for="cep-picker">Localizar por CEP</label>
+                <input id="cep-picker" type="text" placeholder="00000-000" inputmode="numeric" maxlength="9">
+              </div>
+              <button type="button" id="cep-btn" class="btn-outline-teal" style="height:48px;padding:10px 22px">Buscar Perto</button>
+            </div>
+
+            <div id="posts-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin-top:16px"></div>
+            <input type="hidden" id="selected-post-id">
+            <p id="post-error" style="color:#dc2626;font-size:.88rem;display:none;margin-top:12px;font-weight:600">Por favor, selecione uma das unidades acima tocando sobre ela.</p>
           </div>
-          <div class="form-group">
-            <label for="don-lot">Lote (opcional)</label>
-            <input id="don-lot" type="text" placeholder="Número do lote">
+
+          <div style="margin-bottom:32px">
+            <h3 style="margin:0 0 8px;color:var(--deep);font-size:1.35rem">4. Fotos do Medicamento <span style="font-size:0.85rem;color:var(--muted);font-weight:400">(opcional)</span></h3>
+            <p style="color:var(--muted);font-size:0.9rem;margin-bottom:14px">Envie fotos da caixa, lote e cartela para agilizar a triagem farmacêutica.</p>
+
+            <div class="upload-area" id="upload-area">
+              <input type="file" id="file-input" accept="image/*" multiple>
+              <div style="font-size:2rem;margin-bottom:8px">📷</div>
+              <p style="color:var(--deep);font-weight:600;margin:0 0 4px">Clique ou arraste as fotos aqui</p>
+              <p style="color:var(--muted);font-size:.82rem;margin:0">Formatos JPG ou PNG — até 3 fotos</p>
+              <div class="upload-previews" id="previews"></div>
+            </div>
           </div>
-        </div>
 
-        <h3 style="margin:28px 0 20px;color:var(--deep)">Dados do doador</h3>
-
-        <div class="form-group">
-          <label for="don-name">Seu nome</label>
-          <input id="don-name" type="text" required autocomplete="name" placeholder="Nome completo">
-        </div>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-          <div class="form-group">
-            <label for="don-phone">Telefone</label>
-            <input id="don-phone" type="tel" required placeholder="(00) 00000-0000">
+          <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+            <button type="submit" class="btn-teal" style="font-size:1rem;padding:13px 32px">Concluir Doação (+25 EcoCoins)</button>
+            <a href="/medicamentos.html" class="btn-outline-teal" style="font-size:0.95rem;padding:13px 24px">Cancelar</a>
           </div>
-          <div class="form-group">
-            <label for="don-email">E-mail</label>
-            <input id="don-email" type="email" required placeholder="seu@email.com">
-          </div>
-        </div>
-
-        <h3 style="margin:28px 0 16px;color:var(--deep)">Ponto de entrega</h3>
-        <p style="color:var(--muted);font-size:.9rem;margin-bottom:16px">Selecione a unidade mais próxima onde você vai entregar o medicamento.</p>
-
-        <div style="display:flex;gap:10px;margin-bottom:16px;align-items:flex-end;flex-wrap:wrap">
-          <div class="form-group" style="flex:1;min-width:180px;margin-bottom:0">
-            <label for="cep-picker">Buscar por CEP</label>
-            <input id="cep-picker" type="text" placeholder="00000-000" inputmode="numeric" maxlength="9">
-          </div>
-          <button type="button" id="cep-btn" class="btn-outline-teal" style="height:44px;padding:10px 20px">Buscar</button>
-        </div>
-
-        <div id="posts-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:16px"></div>
-        <input type="hidden" id="selected-post-id">
-        <p id="post-error" style="color:#dc2626;font-size:.85rem;display:none;margin-bottom:12px">Por favor, selecione um ponto de entrega.</p>
-
-        <h3 style="margin:28px 0 16px;color:var(--deep)">Fotos do medicamento <span style="font-weight:400;font-size:.85rem;color:var(--muted)">(opcional)</span></h3>
-
-        <div class="upload-area" id="upload-area">
-          <input type="file" id="file-input" accept="image/*" multiple>
-          <p style="color:var(--muted);margin:0">📷 Clique ou arraste as fotos aqui</p>
-          <p style="color:var(--muted);font-size:.82rem;margin:4px 0 0">JPG, PNG — máx. 3 fotos</p>
-          <div class="upload-previews" id="previews"></div>
-        </div>
-
-        <div style="margin-top:28px;display:flex;gap:12px;flex-wrap:wrap">
-          <button type="submit" class="btn-teal">Enviar Doação</button>
-          <a href="/medicamentos.html" class="btn-outline-teal">Cancelar</a>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
 
   <!-- SUCCESS SECTION -->
   <div id="success-doar" style="display:none;padding:40px 24px">
     <div class="success-box">
-      <div class="success-icon">✅</div>
-      <h2>Doação Registrada!</h2>
-      <p style="color:var(--muted)">Obrigado pela sua contribuição com a rede solidária!</p>
-      <div style="background:var(--eco-teal-light);border-radius:12px;padding:16px 20px;margin:20px 0;text-align:center">
-        <p style="margin:0;font-weight:700;color:var(--eco-teal-dark);font-size:1.1rem">🌱 +25 EcoCoins adicionados ao seu saldo</p>
+      <div class="success-icon">🌱</div>
+      <h2>Doação Registrada com Sucesso!</h2>
+      <p style="color:var(--muted);font-size:1rem">Agradecemos profundamente pela sua solidariedade com a saúde comunitária.</p>
+      
+      <div style="background:var(--eco-teal-light);border:1.5px solid var(--eco-teal-border);border-radius:14px;padding:20px;margin:24px 0;text-align:center">
+        <p style="margin:0;font-weight:800;color:var(--eco-teal-dark);font-size:1.25rem">🎉 +25 EcoCoins adicionados à sua conta!</p>
+        <p style="margin:6px 0 0;font-size:0.85rem;color:var(--muted)">Assim que o farmacêutico validar o medicamento na unidade, você receberá mais 30 EcoCoins bônus.</p>
       </div>
-      <p style="color:var(--muted);font-size:.88rem">Nossa equipe farmacêutica avaliará a doação. Você receberá mais EcoCoins após a aprovação.</p>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px">
-        <a href="/historico.html" class="btn-teal">Ver meu histórico</a>
-        <a href="/doar.html" class="btn-outline-teal">Fazer outra doação</a>
+
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+        <a href="/historico.html" class="btn-teal">Ver Meu Saldo no Histórico</a>
+        <a href="/doar.html" class="btn-outline-teal">Fazer Nova Doação</a>
       </div>
     </div>
   </div>
@@ -169,14 +190,12 @@
 document.addEventListener('DOMContentLoaded', function () {
   var photos = [];
 
-  // Haversine distance (km)
   function haversine(lat1, lng1, lat2, lng2) {
     var R = 6371, dLat = (lat2-lat1)*Math.PI/180, dLng = (lng2-lng1)*Math.PI/180;
     var a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)*Math.sin(dLng/2);
     return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
   }
 
-  // Render posts list
   function renderPosts(posts, userLat, userLng) {
     var list = document.getElementById('posts-list');
     var selectedId = document.getElementById('selected-post-id').value;
@@ -197,20 +216,20 @@ document.addEventListener('DOMContentLoaded', function () {
   // CEP search
   document.getElementById('cep-btn').addEventListener('click', function () {
     var cep = document.getElementById('cep-picker').value.replace(/\D/g,'');
-    if (cep.length !== 8) { alert('CEP inválido. Digite os 8 dígitos.'); return; }
+    if (cep.length !== 8) { alert('Digite um CEP válido com 8 números.'); return; }
     this.textContent = 'Buscando...';
     var btn = this;
     fetch('/api/cep/' + cep)
       .then(function(r){ return r.json(); })
       .then(function(d) {
-        btn.textContent = 'Buscar';
+        btn.textContent = 'Buscar Perto';
         if (d.lat && d.lng) {
           renderPosts(medsDb.getHealthPosts(), d.lat, d.lng);
         } else {
-          alert('CEP não encontrado. Selecione o posto manualmente.');
+          alert('Endereço localizado sem coordenadas diretas. Selecione o posto desejado.');
         }
       })
-      .catch(function(){ btn.textContent = 'Buscar'; alert('Erro ao buscar CEP. Selecione o posto manualmente.'); });
+      .catch(function(){ btn.textContent = 'Buscar Perto'; alert('Não foi possível consultar o CEP agora. Selecione manualmente na lista.'); });
   });
 
   // File upload
@@ -225,14 +244,14 @@ document.addEventListener('DOMContentLoaded', function () {
   fileInput.addEventListener('change', function(){ processFiles(fileInput.files); });
 
   function processFiles(files) {
-    if (photos.length >= 3) { alert('Máximo de 3 fotos.'); return; }
+    if (photos.length >= 3) { alert('Você pode anexar no máximo 3 fotos.'); return; }
     Array.from(files).slice(0, 3 - photos.length).forEach(function(file) {
       var reader = new FileReader();
       reader.onload = function(e) {
         photos.push(e.target.result);
         var img = document.createElement('img');
         img.src = e.target.result;
-        img.alt = 'Foto do medicamento';
+        img.alt = 'Foto da doação';
         previews.appendChild(img);
       };
       reader.readAsDataURL(file);
@@ -278,4 +297,3 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 </body>
 </html>
-

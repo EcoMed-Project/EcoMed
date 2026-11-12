@@ -14,11 +14,13 @@
   };
 
   const TARIFF_ALERT = {
-    'isento':         '✓ Medicamento sem tarja — disponível sem receita',
-    'tarja-amarela':  '⚠ Tarja Amarela — requer receita simples',
-    'tarja-vermelha': '🔴 Tarja Vermelha — requer receita médica',
-    'tarja-preta':    '🚫 Tarja Preta — receita especial de retenção obrigatória'
+    'isento':         '✓ Medicamento Isento de Prescrição (MIP) — disponível para orientação comunitária.',
+    'tarja-amarela':  '⚠ Medicamento Genérico / Tarja Amarela — requer apresentação de receita simples.',
+    'tarja-vermelha': '🔴 Medicamento sob Prescrição Médica — retenção ou apresentação de receita médica.',
+    'tarja-preta':    '🚫 Medicamento Controlado Especial — receita de controle especial em duas vias obrigatória.'
   };
+
+  const FALLBACK_IMG = 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80';
 
   /* ── Helper: escape HTML ─────────────────────────────── */
   function esc(str) {
@@ -37,69 +39,99 @@
      */
     renderTariffBadge(tariff) {
       const t = TARIFF[tariff] || TARIFF['isento'];
-      return `<span style="display:inline-block;background:${t.bg};color:${t.color};border-radius:100px;padding:2px 10px;font-size:0.75rem;font-weight:700;">${esc(t.label)}</span>`;
+      return `<span class="tariff-badge-pill" style="background:${t.bg};color:${t.color};border:1px solid ${t.color}33;">${esc(t.label)}</span>`;
     },
 
     /**
-     * renderMedicineCard(medicine, postName) → card HTML
+     * renderMedicineCard(medicine, postName) → modern visual card with image
      */
     renderMedicineCard(medicine, postName) {
-      const inStock = medicine.stock > 0;
+      const inStock = (medicine.stock || 0) > 0;
+      const imgUrl = medicine.image || FALLBACK_IMG;
+
       return `
 <article class="medicine-card">
-  <div class="medicine-card-title">
-    <h3>${esc(medicine.name)}</h3>
-    ${this.renderTariffBadge(medicine.tariff)}
+  <div class="medicine-card-media">
+    <img src="${esc(imgUrl)}" alt="${esc(medicine.name)}" class="medicine-card-img" loading="lazy" onerror="this.onerror=null;this.src='${FALLBACK_IMG}'">
+    <div class="medicine-floating-badge">
+      ${this.renderTariffBadge(medicine.tariff)}
+    </div>
   </div>
-  <span class="dosage-pill">${esc(medicine.dosage)}</span>
-  <p class="category">${esc(medicine.category)}</p>
-  ${inStock
-    ? `<p class="stock-ok">✓ Disponível (${medicine.stock} unidades)</p>`
-    : `<p class="stock-out">✗ Sem estoque no momento</p>`}
-  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px">
-    <span class="ecocoins-pill">🌱 ${medicine.eco_coins} EcoCoins</span>
-    ${postName ? `<span style="font-size:0.82rem;color:var(--muted)">📍 ${esc(postName)}</span>` : ''}
-  </div>
-  <div class="card-actions">
-    <a href="/medicamento?id=${esc(medicine.id)}" class="btn-outline-teal" style="font-size:0.84rem;padding:8px 18px">Ver detalhes</a>
-    <a href="/solicitar?id=${esc(medicine.id)}" class="btn-teal${inStock ? '' : ' disabled'}" style="font-size:0.84rem;padding:8px 18px${inStock ? '' : ';opacity:.55;pointer-events:none'}"${inStock ? '' : ' aria-disabled="true"'}>Reservar</a>
+  <div class="medicine-card-body">
+    <div class="medicine-card-title-row">
+      <h3 class="medicine-name">${esc(medicine.name)}</h3>
+      <span class="dosage-pill">${esc(medicine.dosage)}</span>
+    </div>
+    <p class="category">${esc(medicine.category)}</p>
+    
+    <div class="stock-status-wrap">
+      ${inStock
+        ? `<span class="stock-ok">✓ Disponível (${medicine.stock} un.)</span>`
+        : `<span class="stock-out">✗ Indisponível no momento</span>`}
+    </div>
+
+    <div class="medicine-card-meta">
+      <span class="ecocoins-pill">🌱 ${medicine.eco_coins} EcoCoins</span>
+      ${postName ? `<span class="post-pill" title="${esc(postName)}">📍 ${esc(postName)}</span>` : ''}
+    </div>
+
+    <div class="medicine-card-actions">
+      <a href="/medicamento?id=${esc(medicine.id)}" class="btn-outline-teal card-btn">Detalhes</a>
+      <a href="/solicitar?id=${esc(medicine.id)}" class="btn-teal card-btn${inStock ? '' : ' disabled'}" ${inStock ? '' : 'aria-disabled="true"'}>Reservar</a>
+    </div>
   </div>
 </article>`.trim();
     },
 
     /**
-     * renderMedicineInfo(medicine) → full info panel
+     * renderMedicineInfo(medicine) → full info panel with image and clinical metadata
      */
     renderMedicineInfo(medicine) {
       const t = TARIFF[medicine.tariff] || TARIFF['isento'];
       const alertText = TARIFF_ALERT[medicine.tariff] || TARIFF_ALERT['isento'];
+      const imgUrl = medicine.image || FALLBACK_IMG;
+
       return `
-<div class="medicine-info">
-  <div style="display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px">
-    <h2 style="margin:0">${esc(medicine.name)} <small style="font-size:0.65em;font-weight:500;color:var(--muted)">${esc(medicine.dosage)}</small></h2>
-    ${this.renderTariffBadge(medicine.tariff)}
-  </div>
-  <div class="tariff-alert" style="background:${t.bg};color:${t.color};border-radius:12px;padding:14px 18px;font-weight:600;font-size:0.9rem;margin:0 0 20px">
-    ${alertText}
-  </div>
-  <div class="info-section">
-    <h4>Descrição</h4>
-    <p>${esc(medicine.description)}</p>
-  </div>
-  <div class="info-section">
-    <h4>Categoria</h4>
-    <p>${esc(medicine.category)}</p>
-  </div>
-  <div class="info-section">
-    <h4>Contraindicações</h4>
-    <p>${esc(medicine.contraindications)}</p>
-  </div>
-  <div class="info-section">
-    <h4>Instruções de uso</h4>
-    <p>${esc(medicine.instructions)}</p>
-  </div>
-  <div style="margin-top:20px">
-    <span class="ecocoins-pill" style="font-size:0.9rem;padding:6px 16px">🌱 Vale ${medicine.eco_coins} EcoCoins ao doar</span>
+<div class="medicine-detail-wrapper">
+  <div class="medicine-detail-hero">
+    <div class="medicine-detail-media">
+      <img src="${esc(imgUrl)}" alt="${esc(medicine.name)}" class="medicine-detail-img" onerror="this.onerror=null;this.src='${FALLBACK_IMG}'">
+      <div style="margin-top:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        ${this.renderTariffBadge(medicine.tariff)}
+        <span class="ecocoins-pill" style="font-size:0.95rem;padding:6px 16px">🌱 Vale ${medicine.eco_coins} EcoCoins ao doar</span>
+      </div>
+    </div>
+
+    <div class="medicine-detail-info">
+      <div style="margin-bottom:12px">
+        <h2 style="font-size:clamp(1.8rem,3vw,2.4rem);margin:0 0 6px">${esc(medicine.name)} <span style="font-size:0.65em;font-weight:600;color:var(--muted)">${esc(medicine.dosage)}</span></h2>
+        <span class="dosage-pill" style="font-size:0.85rem">${esc(medicine.category)}</span>
+      </div>
+
+      <div class="tariff-alert" style="background:${t.bg};color:${t.color};border-radius:12px;padding:14px 18px;font-weight:600;font-size:0.92rem;margin:18px 0;line-height:1.5">
+        ${alertText}
+      </div>
+
+      <div class="info-section">
+        <h4>Descrição Terapêutica</h4>
+        <p>${esc(medicine.description)}</p>
+      </div>
+
+      <div class="info-section">
+        <h4>Contraindicações e Cuidados</h4>
+        <p>${esc(medicine.contraindications)}</p>
+      </div>
+
+      <div class="info-section">
+        <h4>Instruções Gerais de Uso</h4>
+        <p>${esc(medicine.instructions)}</p>
+      </div>
+
+      <div class="info-section">
+        <h4>Validade Típica</h4>
+        <p>${medicine.validity_months ? medicine.validity_months + ' meses a partir da data de fabricação' : 'Consulte na embalagem'}</p>
+      </div>
+    </div>
   </div>
 </div>`.trim();
     },
@@ -128,21 +160,22 @@
     renderPostCardSelectable(post, distanceKm, selectedId) {
       const isSelected = post.id === selectedId;
       return `
-<div class="post-card${isSelected ? ' selected' : ''}" data-post-id="${esc(post.id)}" style="cursor:pointer" onclick="document.getElementById('selected-post-id').value='${esc(post.id)}';document.querySelectorAll('.post-card').forEach(el=>el.classList.remove('selected'));this.classList.add('selected');document.getElementById('post-error').style.display='none'">
-  ${distanceKm !== null && distanceKm !== undefined
-    ? `<span class="distance-badge">${Number(distanceKm).toFixed(1)} km</span>`
-    : ''}
+<div class="post-card${isSelected ? ' selected' : ''}" data-post-id="${esc(post.id)}" style="cursor:pointer" onclick="document.getElementById('selected-post-id').value='${esc(post.id)}';document.querySelectorAll('.post-card').forEach(el=>el.classList.remove('selected'));this.classList.add('selected');var err=document.getElementById('post-error');if(err)err.style.display='none'">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+    ${distanceKm !== null && distanceKm !== undefined
+      ? `<span class="distance-badge">${Number(distanceKm).toFixed(1)} km</span>`
+      : '<span></span>'}
+    ${isSelected ? '<span style="color:var(--eco-teal);font-size:0.8rem;font-weight:700">✓ Selecionado</span>' : '<span style="color:var(--muted);font-size:0.8rem">Toque para selecionar</span>'}
+  </div>
   <h4>${esc(post.name)}</h4>
   <div class="post-meta">
     📍 ${esc(post.address)}<br>
     🕐 ${esc(post.hours)}<br>
     📞 ${esc(post.phone)}
   </div>
-  ${isSelected ? '<p style="color:var(--eco-teal);font-size:0.82rem;font-weight:700;margin:6px 0 0">✓ Selecionado</p>' : ''}
 </div>`.trim();
     }
   };
 
   window.medsUi = medsUi;
 })();
-

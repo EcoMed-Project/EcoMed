@@ -44,14 +44,16 @@
 
 <main id="conteudo">
   <section class="page-banner" id="med-banner">
-    <p class="eyebrow">Farmácia Solidária</p>
-    <h1 id="banner-title">Carregando...</h1>
-    <p id="banner-sub"></p>
+    <div class="banner-inner">
+      <p class="eyebrow">Farmácia Solidária</p>
+      <h1 id="banner-title">Carregando medicamento...</h1>
+      <p id="banner-sub"></p>
+    </div>
   </section>
 
   <div class="inner-page">
-    <div id="med-detail" style="color:var(--muted)">Carregando informações do medicamento...</div>
-    <div id="post-info"></div>
+    <div id="med-detail" style="color:var(--muted);padding:40px 0">Carregando informações do medicamento...</div>
+    <div id="post-info" style="margin-top:36px"></div>
   </div>
 </main>
 
@@ -77,23 +79,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (!med) {
     document.getElementById('banner-title').textContent = 'Medicamento não encontrado';
-    document.getElementById('med-detail').innerHTML = '<p style="padding:40px 0">Não encontramos esse medicamento. <a href="/medicamentos.html" class="btn-outline-teal" style="margin-left:12px">Ver todos</a></p>';
+    document.getElementById('med-detail').innerHTML =
+      '<div style="background:#fff;border:1px dashed var(--line);border-radius:18px;padding:48px 24px;text-align:center">' +
+        '<p style="font-size:1.1rem;color:var(--deep);font-weight:650;margin-bottom:8px">Não encontramos esse medicamento</p>' +
+        '<p style="color:var(--muted);margin-bottom:20px">Ele pode ter sido retirado do catálogo ou o link está incorreto.</p>' +
+        '<a href="/medicamentos.html" class="btn-teal">Explorar Catálogo Completo</a>' +
+      '</div>';
     return;
   }
 
   document.title = 'EcoMed — ' + med.name + ' ' + med.dosage;
   document.getElementById('banner-title').textContent = med.name + ' ' + med.dosage;
-  document.getElementById('banner-sub').textContent = med.category;
+  document.getElementById('banner-sub').textContent = med.category + ' · ' + (med.stock > 0 ? (med.stock + ' unidades disponíveis em rede') : 'Sem estoque no momento');
 
   var reserveBtn = med.stock > 0
-    ? '<a href="/solicitar?id=' + med.id + '" class="btn-teal">Reservar este medicamento</a>'
-    : '<button class="btn-teal" disabled>Sem estoque no momento</button>';
+    ? '<a href="/solicitar?id=' + med.id + '" class="btn-teal" style="font-size:0.95rem;padding:12px 28px">Reservar este Medicamento</a>'
+    : '<button class="btn-teal" disabled style="font-size:0.95rem;padding:12px 28px">Sem estoque no momento</button>';
 
   document.getElementById('med-detail').innerHTML =
     medsUi.renderMedicineInfo(med) +
-    '<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px">' +
+    '<div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:32px;align-items:center">' +
       reserveBtn +
-      '<a href="/medicamentos.html" class="btn-outline-teal">Ver todos os medicamentos</a>' +
+      '<a href="/medicamentos.html" class="btn-outline-teal" style="font-size:0.95rem;padding:12px 28px">← Voltar ao Catálogo</a>' +
     '</div>';
 
   if (med.posts && med.posts.length) {
@@ -102,11 +109,13 @@ document.addEventListener('DOMContentLoaded', function () {
       return p ? medsUi.renderPostCard(p, null) : '';
     }).join('');
     document.getElementById('post-info').innerHTML =
-      '<h3 style="margin-top:48px;margin-bottom:16px">Disponível nestes postos</h3>' +
-      '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px">' + postsHtml + '</div>';
+      '<div style="background:#fff;border:1px solid var(--line);border-radius:20px;padding:28px clamp(16px, 3vw, 32px)">' +
+        '<h3 style="margin:0 0 8px;color:var(--deep)">Unidades com estoque disponível</h3>' +
+        '<p style="color:var(--muted);font-size:0.9rem;margin-bottom:20px">Você pode retirar este medicamento presencialmente em qualquer uma destas unidades:</p>' +
+        '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px">' + postsHtml + '</div>' +
+      '</div>';
   }
 });
 </script>
 </body>
 </html>
-

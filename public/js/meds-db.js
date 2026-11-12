@@ -5,17 +5,129 @@
 (function () {
   'use strict';
 
-  /* ── Dados iniciais ─────────────────────────────────── */
+  /* ── Dados iniciais com imagens públicas representativas ── */
 
   const SEED_MEDICINES = [
-    { id: 'med-001', name: 'Paracetamol', dosage: '500mg', category: 'Analgésico/Antipirético', tariff: 'isento', description: 'Alívio de dor e febre.', contraindications: 'Hepatopatia severa, hipersensibilidade.', instructions: 'Adultos: 500–1000 mg a cada 4–6 h (máx 4 g/dia).', validity_months: 36, stock: 45, eco_coins: 15, posts: ['post-001', 'post-002', 'post-003'] },
-    { id: 'med-002', name: 'Ibuprofeno', dosage: '600mg', category: 'Anti-inflamatório', tariff: 'isento', description: 'Anti-inflamatório, analgésico e antipirético.', contraindications: 'Úlcera péptica, insuficiência renal, gestantes.', instructions: 'Adultos: 400–800 mg a cada 6–8 h com alimento.', validity_months: 36, stock: 28, eco_coins: 20, posts: ['post-001', 'post-004'] },
-    { id: 'med-003', name: 'Amoxicilina + Clavulanato', dosage: '500/125mg', category: 'Antibiótico', tariff: 'tarja-amarela', description: 'Antibiótico de amplo espectro.', contraindications: 'Alergia a penicilinas, mononucleose infecciosa.', instructions: 'Adultos: 1 comprimido a cada 8 h por 7–14 dias (prescrição médica).', validity_months: 24, stock: 12, eco_coins: 35, posts: ['post-002', 'post-005'] },
-    { id: 'med-004', name: 'Losartana Potássica', dosage: '50mg', category: 'Anti-hipertensivo', tariff: 'tarja-vermelha', description: 'Controle da pressão arterial.', contraindications: 'Gravidez, hipotensão severa.', instructions: 'Adultos: 50 mg 1×/dia (pode ser ajustado pelo médico).', validity_months: 36, stock: 33, eco_coins: 25, posts: ['post-001', 'post-003', 'post-005'] },
-    { id: 'med-005', name: 'Metformina', dosage: '850mg', category: 'Antidiabético', tariff: 'tarja-vermelha', description: 'Controle da glicemia no diabetes tipo 2.', contraindications: 'Insuficiência renal/hepática grave, alcoolismo.', instructions: 'Adultos: 850 mg 2–3×/dia com refeições.', validity_months: 36, stock: 21, eco_coins: 20, posts: ['post-002', 'post-004'] },
-    { id: 'med-006', name: 'Omeprazol', dosage: '20mg', category: 'Protetor Gástrico', tariff: 'isento', description: 'Tratamento de gastrite e refluxo.', contraindications: 'Hipersensibilidade a benzimidazóis.', instructions: 'Adultos: 20 mg 1×/dia em jejum por 4–8 semanas.', validity_months: 36, stock: 52, eco_coins: 15, posts: ['post-001', 'post-002', 'post-003', 'post-004', 'post-005'] },
-    { id: 'med-007', name: 'Clonazepam', dosage: '2mg', category: 'Ansiolítico/Anticonvulsivante', tariff: 'tarja-preta', description: 'Tratamento de ansiedade e convulsões.', contraindications: 'Glaucoma, insuficiência hepática grave, gestantes.', instructions: 'Adultos: dose individualizada pelo médico. Uso controlado — requer receita especial.', validity_months: 24, stock: 8, eco_coins: 40, posts: ['post-003'] },
-    { id: 'med-008', name: 'Dipirona Sódica', dosage: '500mg/mL', category: 'Analgésico/Antipirético', tariff: 'isento', description: 'Solução oral para dor e febre.', contraindications: 'Hipersensibilidade a dipirona, agranulocitose prévia.', instructions: 'Adultos: 20–40 gotas até 4×/dia.', validity_months: 24, stock: 38, eco_coins: 15, posts: ['post-001', 'post-004', 'post-005'] }
+    {
+      id: 'med-001',
+      name: 'Paracetamol',
+      dosage: '500mg',
+      category: 'Analgésico/Antipirético',
+      tariff: 'isento',
+      description: 'Alívio eficaz de dores de cabeça, febre e dores musculares de intensidade leve a moderada.',
+      contraindications: 'Hepatopatia severa, insuficiência hepática, hipersensibilidade ao paracetamol.',
+      instructions: 'Adultos: 500–1000 mg a cada 4–6 h conforme necessidade (dose máxima: 4 g/dia).',
+      validity_months: 36,
+      stock: 45,
+      eco_coins: 15,
+      posts: ['post-001', 'post-002', 'post-003'],
+      image: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=80'
+    },
+    {
+      id: 'med-002',
+      name: 'Ibuprofeno',
+      dosage: '600mg',
+      category: 'Anti-inflamatório',
+      tariff: 'isento',
+      description: 'Anti-inflamatório não esteroide (AINE) indicado para febre e dores inflamatórias.',
+      contraindications: 'Úlcera péptica ativa, insuficiência renal severa, gestantes no 3º trimestre.',
+      instructions: 'Adultos: 400–800 mg a cada 6–8 h após refeições com um copo de água.',
+      validity_months: 36,
+      stock: 28,
+      eco_coins: 20,
+      posts: ['post-001', 'post-004'],
+      image: 'https://images.unsplash.com/photo-1550572017-ed23602167d5?auto=format&fit=crop&w=600&q=80'
+    },
+    {
+      id: 'med-003',
+      name: 'Amoxicilina + Clavulanato',
+      dosage: '500/125mg',
+      category: 'Antibiótico',
+      tariff: 'tarja-amarela',
+      description: 'Antibiótico bactericida de amplo espectro para infecções bacterianas do trato respiratório e urinário.',
+      contraindications: 'Hipersensibilidade a penicilinas e cefalosporinas, histórico de icterícia associada.',
+      instructions: 'Adultos: 1 comprimido a cada 8 h por 7–14 dias conforme rigorosa prescrição médica.',
+      validity_months: 24,
+      stock: 12,
+      eco_coins: 35,
+      posts: ['post-002', 'post-005'],
+      image: 'https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=600&q=80'
+    },
+    {
+      id: 'med-004',
+      name: 'Losartana Potássica',
+      dosage: '50mg',
+      category: 'Anti-hipertensivo',
+      tariff: 'tarja-vermelha',
+      description: 'Antagonista dos receptores da angiotensina II para controle contínuo da pressão arterial.',
+      contraindications: 'Gravidez, lactação, hipersensibilidade e hipotensão arterial severa.',
+      instructions: 'Adultos: 50 mg uma vez ao dia, preferencialmente no mesmo horário todos os dias.',
+      validity_months: 36,
+      stock: 33,
+      eco_coins: 25,
+      posts: ['post-001', 'post-003', 'post-005'],
+      image: 'https://images.unsplash.com/photo-1628771065518-0d82f1938462?auto=format&fit=crop&w=600&q=80'
+    },
+    {
+      id: 'med-005',
+      name: 'Metformina',
+      dosage: '850mg',
+      category: 'Antidiabético',
+      tariff: 'tarja-vermelha',
+      description: 'Biguanida anti-hiperglicemiante oral para o tratamento do diabetes mellitus tipo 2.',
+      contraindications: 'Insuficiência renal (TFGe < 30 mL/min), insuficiência hepática, acidose metabólica.',
+      instructions: 'Adultos: 850 mg 2 a 3 vezes ao dia junto ou após as principais refeições.',
+      validity_months: 36,
+      stock: 21,
+      eco_coins: 20,
+      posts: ['post-002', 'post-004'],
+      image: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=600&q=80'
+    },
+    {
+      id: 'med-006',
+      name: 'Omeprazol',
+      dosage: '20mg',
+      category: 'Protetor Gástrico',
+      tariff: 'isento',
+      description: 'Inibidor da bomba de prótons para alívio de refluxo gastroesofágico, azia e gastrite.',
+      contraindications: 'Hipersensibilidade a benzimidazóis substituídos ou a qualquer componente da fórmula.',
+      instructions: 'Adultos: 20 mg 1 vez ao dia pela manhã, em jejum, por 4 a 8 semanas.',
+      validity_months: 36,
+      stock: 52,
+      eco_coins: 15,
+      posts: ['post-001', 'post-002', 'post-003', 'post-004', 'post-005'],
+      image: 'https://images.unsplash.com/photo-1550572017-4fcdbb590e53?auto=format&fit=crop&w=600&q=80'
+    },
+    {
+      id: 'med-007',
+      name: 'Clonazepam',
+      dosage: '2mg',
+      category: 'Ansiolítico/Anticonvulsivante',
+      tariff: 'tarja-preta',
+      description: 'Benzodiazepínico para transtornos de ansiedade, pânico e crises convulsivas.',
+      contraindications: 'Glaucoma de ângulo fechado, insuficiência respiratória grave, dependência química.',
+      instructions: 'Uso controlado e estritamente sob supervisão médica com retenção de receita especial B1.',
+      validity_months: 24,
+      stock: 8,
+      eco_coins: 40,
+      posts: ['post-003'],
+      image: 'https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?auto=format&fit=crop&w=600&q=80'
+    },
+    {
+      id: 'med-008',
+      name: 'Dipirona Sódica',
+      dosage: '500mg/mL',
+      category: 'Analgésico/Antipirético',
+      tariff: 'isento',
+      description: 'Solução oral analgésica e antipirética rápida para alívio de dor e febre.',
+      contraindications: 'Alergia a pirazolonas, histórico de agranulocitose, porfiria hepática aguda.',
+      instructions: 'Adultos: 20 a 40 gotas em um pouco de água até 4 vezes ao dia.',
+      validity_months: 24,
+      stock: 38,
+      eco_coins: 15,
+      posts: ['post-001', 'post-004', 'post-005'],
+      image: 'https://images.unsplash.com/photo-1584017911766-d451b3d0e843?auto=format&fit=crop&w=600&q=80'
+    }
   ];
 
   const SEED_POSTS = [
@@ -59,15 +171,34 @@
   }
 
   function _save(key, data) {
-    localStorage.setItem(key, JSON.stringify(data));
-    try { window.dispatchEvent(new CustomEvent('ecomed:sync', { detail: { key } })); } catch {}
+    try {
+      localStorage.setItem(key, JSON.stringify(data));
+      window.dispatchEvent(new CustomEvent('ecomed:sync', { detail: { key } }));
+    } catch {}
   }
 
   /* ── Public API ─────────────────────────────────────── */
   const medsDb = {
 
     init() {
-      if (!_load(K.medicines)) _save(K.medicines, SEED_MEDICINES);
+      const existingMeds = _load(K.medicines);
+      if (!existingMeds || !Array.isArray(existingMeds) || existingMeds.length === 0) {
+        _save(K.medicines, SEED_MEDICINES);
+      } else {
+        // Migration: assegurar que itens existentes recebam URLs de imagem se ainda não tiverem
+        let changed = false;
+        existingMeds.forEach(m => {
+          if (!m.image) {
+            const seed = SEED_MEDICINES.find(s => s.id === m.id);
+            if (seed && seed.image) {
+              m.image = seed.image;
+              changed = true;
+            }
+          }
+        });
+        if (changed) _save(K.medicines, existingMeds);
+      }
+
       if (!_load(K.posts))     _save(K.posts, SEED_POSTS);
       if (!_load(K.donations)) _save(K.donations, SEED_DONATIONS);
       if (!_load(K.requests))  _save(K.requests, SEED_REQUESTS);
@@ -107,12 +238,16 @@
       if (reason) donations[idx].reason = reason;
       if (status === 'approved') {
         donations[idx].approved_at = new Date().toISOString();
-        // Update stock
         if (donations[idx].medicine_id) {
           this.updateMedicineStock(donations[idx].medicine_id, donations[idx].quantity || 1);
         }
-        // Credit EcoCoins
-        this.addTransaction({ id: 'tx-' + Date.now(), type: 'credit', amount: 30, description: 'Doação aprovada: ' + donations[idx].medicine, created_at: new Date().toISOString() });
+        this.addTransaction({
+          id: 'tx-' + Date.now(),
+          type: 'credit',
+          amount: 30,
+          description: 'Doação aprovada: ' + donations[idx].medicine,
+          created_at: new Date().toISOString()
+        });
       }
       _save(K.donations, donations);
     },
@@ -145,9 +280,8 @@
     getTransactions() { return _load(K.txs) || []; },
     addTransaction(tx) {
       const txs = this.getTransactions();
-      txs.unshift(tx); // newest first
+      txs.unshift(tx);
       _save(K.txs, txs);
-      // Recalculate balance
       const balance = txs.reduce((sum, t) => t.type === 'credit' ? sum + t.amount : sum - t.amount, 0);
       const profile = this.getProfile();
       profile.eco_coins = Math.max(0, balance);
@@ -159,4 +293,3 @@
   window.medsDb = medsDb;
   medsDb.init();
 })();
-

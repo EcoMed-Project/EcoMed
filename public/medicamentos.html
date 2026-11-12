@@ -44,44 +44,66 @@
 
 <main id="conteudo">
   <section class="page-banner">
-    <p class="eyebrow">Farmácia Solidária</p>
-    <h1>Medicamentos Disponíveis</h1>
-    <p>Encontre medicamentos para doação e retirada nas unidades parceiras da rede EcoMed.</p>
+    <div class="banner-inner">
+      <p class="eyebrow">Farmácia Solidária</p>
+      <h1>Medicamentos Disponíveis</h1>
+      <p>Encontre medicamentos em estoque nas unidades parceiras da rede EcoMed. Retire gratuitamente ou reserve utilizando seus EcoCoins.</p>
+    </div>
   </section>
 
   <div class="inner-page">
-    <div class="form-group" style="max-width:480px;margin-bottom:20px">
-      <label for="busca-med">Buscar medicamento</label>
-      <input id="busca-med" type="search" placeholder="Nome, categoria..." autocomplete="off">
-    </div>
-
-    <div class="filter-bar">
-      <div class="filter-pills" role="group" aria-label="Filtrar por categoria">
-        <button class="filter-pill active" type="button">Todos</button>
-        <button class="filter-pill" type="button">Analgésico</button>
-        <button class="filter-pill" type="button">Anti-inflamatório</button>
-        <button class="filter-pill" type="button">Antibiótico</button>
-        <button class="filter-pill" type="button">Anti-hipertensivo</button>
-        <button class="filter-pill" type="button">Antidiabético</button>
-        <button class="filter-pill" type="button">Protetor Gástrico</button>
-        <button class="filter-pill" type="button">Ansiolítico</button>
+    <!-- Controls (Search + Filters) -->
+    <div class="catalog-controls">
+      <div class="catalog-search-row">
+        <div class="search-input-wrap">
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input id="busca-med" type="search" placeholder="Buscar por nome (ex: Paracetamol, Omeprazol), dosagem ou categoria..." autocomplete="off">
+        </div>
+        <div class="select-wrap">
+          <select id="filtro-posto">
+            <option value="">Todos os Postos SUS (5 unidades parceiras)</option>
+            <option value="post-001">UBS Central Dr. Paulo Freire</option>
+            <option value="post-002">Farmácia Solidária Vila Mariana</option>
+            <option value="post-003">UBS Pinheiros</option>
+            <option value="post-004">Centro de Saúde da Lapa</option>
+            <option value="post-005">Posto Integrado Mooca</option>
+          </select>
+        </div>
       </div>
-      <select id="filtro-posto" style="padding:8px 14px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-size:.88rem;background:#fff;color:var(--deep)">
-        <option value="">Todos os postos</option>
-        <option value="post-001">UBS Central Dr. Paulo Freire</option>
-        <option value="post-002">Farmácia Solidária Vila Mariana</option>
-        <option value="post-003">UBS Pinheiros</option>
-        <option value="post-004">Centro de Saúde da Lapa</option>
-        <option value="post-005">Posto Integrado Mooca</option>
-      </select>
+
+      <div class="filter-pills-row">
+        <span class="filter-pills-title">Categorias:</span>
+        <div class="filter-pills" role="group" aria-label="Filtrar por categoria">
+          <button class="filter-pill active" type="button">Todos</button>
+          <button class="filter-pill" type="button">Analgésico</button>
+          <button class="filter-pill" type="button">Anti-inflamatório</button>
+          <button class="filter-pill" type="button">Antibiótico</button>
+          <button class="filter-pill" type="button">Anti-hipertensivo</button>
+          <button class="filter-pill" type="button">Antidiabético</button>
+          <button class="filter-pill" type="button">Protetor Gástrico</button>
+          <button class="filter-pill" type="button">Ansiolítico</button>
+        </div>
+      </div>
     </div>
 
-    <div id="medicines-grid" class="medicines-grid">
-      <p style="color:var(--muted)">Carregando medicamentos...</p>
+    <!-- Results metadata bar -->
+    <div class="catalog-meta-bar">
+      <span id="results-count">Carregando catálogo...</span>
+      <span style="font-size:0.82rem;color:var(--muted)">Atualizado em tempo real</span>
     </div>
-    <p id="empty-msg" style="display:none;color:var(--muted);padding:40px 0;text-align:center">
-      Nenhum medicamento encontrado para os filtros selecionados.
-    </p>
+
+    <!-- Medicines Grid -->
+    <div id="medicines-grid" class="medicines-grid">
+      <p style="color:var(--muted);padding:40px 0">Carregando medicamentos...</p>
+    </div>
+
+    <div id="empty-msg" style="display:none;background:#fff;border:1px dashed var(--line);border-radius:18px;padding:48px 24px;text-align:center;margin-top:20px">
+      <p style="font-size:1.1rem;color:var(--deep);font-weight:650;margin-bottom:8px">Nenhum medicamento encontrado</p>
+      <p style="color:var(--muted);margin:0">Tente buscar por outro termo ou limpe os filtros de categoria e posto.</p>
+    </div>
   </div>
 </main>
 
@@ -105,23 +127,47 @@ document.addEventListener('DOMContentLoaded', function () {
   var emptyMsg = document.getElementById('empty-msg');
   var busca = document.getElementById('busca-med');
   var filtroPosto = document.getElementById('filtro-posto');
+  var countEl = document.getElementById('results-count');
   var activeCategory = 'Todos';
 
   function render() {
     var meds = medsDb.getMedicines();
     var q = busca.value.toLowerCase().trim();
     var posto = filtroPosto.value;
-    if (q) meds = meds.filter(function(m){ return m.name.toLowerCase().includes(q) || m.category.toLowerCase().includes(q); });
-    if (activeCategory !== 'Todos') meds = meds.filter(function(m){ return m.category.includes(activeCategory); });
-    if (posto) meds = meds.filter(function(m){ return m.posts && m.posts.includes(posto); });
+
+    if (q) {
+      meds = meds.filter(function(m){
+        return (m.name && m.name.toLowerCase().includes(q)) ||
+               (m.dosage && m.dosage.toLowerCase().includes(q)) ||
+               (m.category && m.category.toLowerCase().includes(q)) ||
+               (m.description && m.description.toLowerCase().includes(q));
+      });
+    }
+
+    if (activeCategory !== 'Todos') {
+      meds = meds.filter(function(m){
+        return m.category && m.category.toLowerCase().includes(activeCategory.toLowerCase());
+      });
+    }
+
+    if (posto) {
+      meds = meds.filter(function(m){
+        return m.posts && m.posts.includes(posto);
+      });
+    }
+
+    countEl.textContent = 'Exibindo ' + meds.length + (meds.length === 1 ? ' medicamento' : ' medicamentos');
+
     if (meds.length) {
       grid.innerHTML = meds.map(function(m){
         var post = m.posts && m.posts[0] ? medsDb.getHealthPostById(m.posts[0]) : null;
         return medsUi.renderMedicineCard(m, post ? post.name : null);
       }).join('');
       emptyMsg.style.display = 'none';
+      grid.style.display = 'grid';
     } else {
       grid.innerHTML = '';
+      grid.style.display = 'none';
       emptyMsg.style.display = 'block';
     }
   }
@@ -139,8 +185,8 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   render();
+  window.addEventListener('ecomed:sync', render);
 });
 </script>
 </body>
 </html>
-

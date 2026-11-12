@@ -46,57 +46,70 @@
   <!-- FORM SECTION -->
   <div id="form-section">
     <section class="page-banner">
-      <p class="eyebrow">Farmácia Solidária</p>
-      <h1>Reservar Medicamento</h1>
-      <p>Preencha seus dados para confirmar a reserva. A retirada deve ser feita em até 48 horas.</p>
+      <div class="banner-inner">
+        <p class="eyebrow">Farmácia Solidária</p>
+        <h1>Reservar Medicamento</h1>
+        <p>Preencha os dados do beneficiário para garantir a reserva do item na unidade de atendimento mais próxima.</p>
+      </div>
     </section>
 
     <div class="inner-page">
-      <div id="med-summary" class="medicine-card" style="margin-bottom:28px;max-width:560px">
-        <p style="color:var(--muted)">Carregando...</p>
+      <div class="reservation-layout" style="display:grid;grid-template-columns:1fr 1.35fr;gap:36px;align-items:start">
+        <!-- Resumo do Medicamento -->
+        <div id="med-summary" class="medicine-card">
+          <p style="color:var(--muted);padding:30px">Carregando dados do medicamento...</p>
+        </div>
+
+        <!-- Formulário -->
+        <div style="background:#fff;border:1px solid var(--line);border-radius:20px;padding:clamp(22px, 3.5vw, 36px);box-shadow:0 6px 24px rgba(22, 60, 48, 0.04)">
+          <h3 style="margin:0 0 20px;color:var(--deep);font-size:1.3rem">Dados do Beneficiário</h3>
+
+          <form id="solicitar-form">
+            <div class="form-group">
+              <label for="req-nome">Nome completo</label>
+              <input id="req-nome" type="text" required autocomplete="name" placeholder="Nome completo do paciente">
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="grid-2col-mobile">
+              <div class="form-group">
+                <label for="req-cpf">CPF</label>
+                <input id="req-cpf" type="text" required placeholder="000.000.000-00" maxlength="14">
+              </div>
+              <div class="form-group">
+                <label for="req-email">E-mail</label>
+                <input id="req-email" type="email" required autocomplete="email" placeholder="seu@email.com">
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:16px" class="grid-2col-mobile">
+              <div class="form-group">
+                <label for="req-qty">Quantidade</label>
+                <select id="req-qty">
+                  <option value="1">1 unidade (padrão)</option>
+                  <option value="2">2 unidades</option>
+                  <option value="3">3 unidades</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="req-method">Modalidade de retirada</label>
+                <select id="req-method">
+                  <option value="presencial">Retirada presencial gratuita (SUS)</option>
+                  <option value="ecocoins">Reserva com EcoCoins</option>
+                  <option value="cadunico">Beneficiário CadÚnico (Prioritário)</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="ecocoins-info" style="display:none;padding:14px 18px;background:var(--eco-teal-light);border:1px solid var(--eco-teal-border);border-radius:12px;margin-bottom:22px;font-size:.9rem;color:var(--eco-teal-dark);line-height:1.6"></div>
+
+            <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:24px">
+              <button type="submit" class="btn-teal" id="btn-submit" style="padding:12px 28px">Confirmar Reserva</button>
+              <a href="/medicamentos.html" class="btn-outline-teal" style="padding:12px 24px">Cancelar</a>
+            </div>
+          </form>
+        </div>
       </div>
-
-      <form id="solicitar-form" style="max-width:560px">
-        <h3 style="margin-bottom:20px">Seus dados</h3>
-
-        <div class="form-group">
-          <label for="req-nome">Nome completo</label>
-          <input id="req-nome" type="text" required autocomplete="name" placeholder="Seu nome completo">
-        </div>
-
-        <div class="form-group">
-          <label for="req-cpf">CPF</label>
-          <input id="req-cpf" type="text" required placeholder="000.000.000-00" maxlength="14">
-        </div>
-
-        <div class="form-group">
-          <label for="req-email">E-mail</label>
-          <input id="req-email" type="email" required autocomplete="email" placeholder="seu@email.com">
-        </div>
-
-        <div class="form-group">
-          <label for="req-qty">Quantidade</label>
-          <select id="req-qty">
-            <option value="1">1 unidade</option>
-            <option value="2">2 unidades</option>
-            <option value="3">3 unidades</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="req-method">Modalidade de retirada</label>
-          <select id="req-method">
-            <option value="presencial">Retirada presencial (gratuito)</option>
-            <option value="ecocoins">Usar EcoCoins</option>
-            <option value="cadunico">CadÚnico (gratuidade total)</option>
-          </select>
-        </div>
-
-        <div id="ecocoins-info" style="display:none;padding:12px 16px;background:var(--eco-teal-light);border-radius:10px;margin-bottom:20px;font-size:.88rem;color:var(--eco-teal-dark);line-height:1.6"></div>
-
-        <button type="submit" class="btn-teal" id="btn-submit" style="min-width:200px">Confirmar Reserva</button>
-        <a href="/medicamentos.html" class="btn-outline-teal" style="margin-left:12px">Cancelar</a>
-      </form>
     </div>
   </div>
 
@@ -104,14 +117,16 @@
   <div id="success-section" style="display:none;padding:40px 24px">
     <div class="success-box">
       <div class="success-icon">✅</div>
-      <h2>Reserva Confirmada!</h2>
-      <p style="color:var(--muted)">Seu código de reserva:</p>
+      <h2>Reserva Confirmada com Sucesso!</h2>
+      <p style="color:var(--muted);font-size:0.95rem">Apresente o código abaixo na farmácia para retirar seu medicamento:</p>
       <div id="reservation-code" class="reservation-code">ECO-000-2026</div>
-      <p id="success-post-info" style="color:var(--muted);font-size:.9rem;margin:12px 0"></p>
-      <p style="color:var(--muted);font-size:.85rem">⏰ Válida por 48 horas. Leve um documento com foto na retirada.</p>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px">
-        <a href="/historico.html" class="btn-teal">Ver meu histórico</a>
-        <a href="/medicamentos.html" class="btn-outline-teal">Ver outros medicamentos</a>
+      <p id="success-post-info" style="color:var(--deep);font-size:.95rem;font-weight:600;margin:16px 0"></p>
+      <div style="background:#f8faf9;border:1px solid var(--line);border-radius:12px;padding:14px;margin:20px 0;font-size:.88rem;color:var(--muted)">
+        ⏰ Válida por <strong>48 horas</strong>. Leve um documento oficial com foto e comprovante de receita médica (se aplicável).
+      </div>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+        <a href="/historico.html" class="btn-teal">Ver Meu Histórico</a>
+        <a href="/medicamentos.html" class="btn-outline-teal">Explorar Outros Medicamentos</a>
       </div>
     </div>
   </div>
@@ -139,21 +154,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (!med) {
     document.getElementById('form-section').innerHTML =
-      '<div class="inner-page"><p style="padding:40px 0;color:var(--muted)">Medicamento não encontrado. <a href="/medicamentos.html" class="btn-outline-teal" style="margin-left:12px">Ver todos</a></p></div>';
+      '<div class="inner-page"><div style="background:#fff;border:1px dashed var(--line);border-radius:18px;padding:48px 24px;text-align:center"><p style="font-size:1.1rem;color:var(--deep);font-weight:650;margin-bottom:12px">Medicamento não encontrado</p><a href="/medicamentos.html" class="btn-teal">Voltar ao Catálogo</a></div></div>';
     return;
   }
 
-  // Show medicine summary
-  document.getElementById('med-summary').innerHTML =
-    '<div class="medicine-card-title"><h3>' + med.name + ' ' + med.dosage + '</h3>' + medsUi.renderTariffBadge(med.tariff) + '</div>' +
-    '<p class="category">' + med.category + '</p>' +
-    '<p class="stock-ok" style="margin:0">✓ ' + med.stock + ' unidades disponíveis</p>' +
-    '<div style="margin-top:10px"><span class="ecocoins-pill">🌱 ' + med.eco_coins + ' EcoCoins</span></div>';
+  // Render medicine summary card
+  var post = med.posts && med.posts[0] ? medsDb.getHealthPostById(med.posts[0]) : null;
+  document.getElementById('med-summary').innerHTML = medsUi.renderMedicineCard(med, post ? post.name : null);
+
+  // Remove action buttons inside the preview summary card
+  var actions = document.getElementById('med-summary').querySelector('.medicine-card-actions');
+  if (actions) actions.style.display = 'none';
 
   // EcoCoins info on method change
   var methodSel = document.getElementById('req-method');
   var ecInfo = document.getElementById('ecocoins-info');
-  methodSel.addEventListener('change', function () {
+  function updateMethodInfo() {
     if (methodSel.value === 'ecocoins') {
       var prof = medsDb.getProfile();
       var qty = parseInt(document.getElementById('req-qty').value) || 1;
@@ -162,11 +178,17 @@ document.addEventListener('DOMContentLoaded', function () {
       ecInfo.style.display = 'block';
       ecInfo.innerHTML = '🌱 Saldo atual: <strong>' + prof.eco_coins + ' EcoCoins</strong>. ' +
         'Custo desta reserva: <strong>' + cost + ' EcoCoins</strong>. ' +
-        (sufficient ? '✓ Saldo suficiente.' : '⚠ Saldo insuficiente. Escolha outra modalidade.');
+        (sufficient ? '✓ Saldo suficiente para confirmação.' : '⚠ Saldo insuficiente. Selecione retirada presencial regular.');
+    } else if (methodSel.value === 'cadunico') {
+      ecInfo.style.display = 'block';
+      ecInfo.innerHTML = '🤝 <strong>Prioridade CadÚnico:</strong> Reserva prioritária e gratuita assegurada conforme as diretrizes do SUS Solidário.';
     } else {
       ecInfo.style.display = 'none';
     }
-  });
+  }
+
+  methodSel.addEventListener('change', updateMethodInfo);
+  document.getElementById('req-qty').addEventListener('change', updateMethodInfo);
 
   // Form submit
   document.getElementById('solicitar-form').addEventListener('submit', function (e) {
@@ -176,11 +198,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var prof = medsDb.getProfile();
 
     if (method === 'ecocoins' && prof.eco_coins < med.eco_coins * qty) {
-      alert('Saldo de EcoCoins insuficiente. Escolha outra modalidade de retirada.');
+      alert('Saldo de EcoCoins insuficiente. Escolha a modalidade presencial gratuita.');
       return;
     }
 
-    var post = med.posts && med.posts[0] ? medsDb.getHealthPostById(med.posts[0]) : null;
     var req = medsDb.createRequest({
       medicine_id: med.id,
       medicine_name: med.name + ' ' + med.dosage,
@@ -207,11 +228,11 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('success-section').style.display = 'block';
     document.getElementById('reservation-code').textContent = req.reservation_code;
     document.getElementById('success-post-info').textContent = post
-      ? '📍 ' + post.name + '  ·  ' + post.address + '  ·  ' + post.hours
-      : '';
+      ? '📍 ' + post.name + ' — ' + post.address + ' (' + post.hours + ')'
+      : '📍 Posto Integrado da Rede EcoMed';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 });
 </script>
 </body>
 </html>
-
