@@ -880,3 +880,76 @@ html.motion-disabled .reveal-pending{opacity:1;transform:none}
     gap: 12px !important;
   }
 }
+/* =============================================
+   MAP PINS (MARCAÇÃO PRINCIPAL DO CEP E POSTOS)
+   ============================================= */
+.custom-cep-pin {
+  background: transparent !important;
+  border: none !important;
+}
+.cep-marker-pin {
+  position: relative;
+  width: 40px;
+  height: 46px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cep-marker-badge {
+  position: absolute;
+  top: 0;
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, #0d9488 0%, #064b38 100%);
+  border: 2.5px solid #ffffff;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  cursor: pointer;
+}
+.cep-marker-badge svg {
+  transform: rotate(45deg);
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+}
+.cep-marker-pulse {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 14px;
+  background: rgba(13, 148, 136, 0.5);
+  border-radius: 50%;
+  animation: cepRadarPulse 2s infinite ease-out;
+  z-index: 1;
+}
+@keyframes cepRadarPulse {
+  0% { transform: translateX(-50%) scale(0.5); opacity: 1; }
+  100% { transform: translateX(-50%) scale(2.4); opacity: 0; }
+}
+
+.custom-pharmacy-pin {
+  background: transparent !important;
+  border: none !important;
+}
+.pharmacy-marker-pin {
+  width: 28px;
+  height: 28px;
+  background: #ffffff;
+  border: 2px solid #08794f;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.22);
+  cursor: pointer;
+  transition: transform .2s ease;
+}
+.pharmacy-marker-pin:hover {
+  transform: scale(1.15);
+  border-color: #0d9488;
+}
