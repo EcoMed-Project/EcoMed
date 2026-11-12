@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Reserve um medicamento disponível na rede EcoMed Farmácia Solidária.">
+  <title>EcoMed — Reservar Medicamento</title>
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/ui.js" defer></script>
+  <script src="/js/meds-db.js" defer></script>
+  <script src="/js/meds-ui.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<header class="header">
+  <a class="brand" href="/" aria-label="EcoMed Brasil – início">
+    <img src="/assets/logo-ecomed.jfif" width="424" height="133" alt="EcoMed Brasil">
+  </a>
+  <nav aria-label="Navegação principal">
+    <a href="/">Início</a>
+    <a href="/descarte.html">Descarte</a>
+    <a href="/recipiente.html">Recipiente</a>
+    <a href="/aprender.html">Aprender</a>
+    <a href="/medicamentos.html">Medicamentos</a>
+    <a href="/doar.html">Doar Remédio</a>
+    <a href="/historico.html">Histórico</a>
+    <a href="/sobre.html">Sobre</a>
+  </nav>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-navigation">Menu<span aria-hidden="true"></span></button>
+  <nav id="mobile-navigation" class="mobile-navigation" aria-label="Navegação móvel" hidden>
+    <a href="/">Início</a>
+    <a href="/descarte.html">Descarte</a>
+    <a href="/recipiente.html">Recipiente</a>
+    <a href="/aprender.html">Aprender</a>
+    <a href="/medicamentos.html">Medicamentos</a>
+    <a href="/doar.html">Doar Remédio</a>
+    <a href="/historico.html">Histórico</a>
+    <a href="/painel.html">Painel SUS</a>
+    <a href="/sobre.html">Sobre</a>
+    <a href="/privacidade.html">Privacidade</a>
+  </nav>
+</header>
+
+<main id="conteudo">
+  <!-- FORM SECTION -->
+  <div id="form-section">
+    <section class="page-banner">
+      <p class="eyebrow">Farmácia Solidária</p>
+      <h1>Reservar Medicamento</h1>
+      <p>Preencha seus dados para confirmar a reserva. A retirada deve ser feita em até 48 horas.</p>
+    </section>
+
+    <div class="inner-page">
+      <div id="med-summary" class="medicine-card" style="margin-bottom:28px;max-width:560px">
+        <p style="color:var(--muted)">Carregando...</p>
+      </div>
+
+      <form id="solicitar-form" style="max-width:560px">
+        <h3 style="margin-bottom:20px">Seus dados</h3>
+
+        <div class="form-group">
+          <label for="req-nome">Nome completo</label>
+          <input id="req-nome" type="text" required autocomplete="name" placeholder="Seu nome completo">
+        </div>
+
+        <div class="form-group">
+          <label for="req-cpf">CPF</label>
+          <input id="req-cpf" type="text" required placeholder="000.000.000-00" maxlength="14">
+        </div>
+
+        <div class="form-group">
+          <label for="req-email">E-mail</label>
+          <input id="req-email" type="email" required autocomplete="email" placeholder="seu@email.com">
+        </div>
+
+        <div class="form-group">
+          <label for="req-qty">Quantidade</label>
+          <select id="req-qty">
+            <option value="1">1 unidade</option>
+            <option value="2">2 unidades</option>
+            <option value="3">3 unidades</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="req-method">Modalidade de retirada</label>
+          <select id="req-method">
+            <option value="presencial">Retirada presencial (gratuito)</option>
+            <option value="ecocoins">Usar EcoCoins</option>
+            <option value="cadunico">CadÚnico (gratuidade total)</option>
+          </select>
+        </div>
+
+        <div id="ecocoins-info" style="display:none;padding:12px 16px;background:var(--eco-teal-light);border-radius:10px;margin-bottom:20px;font-size:.88rem;color:var(--eco-teal-dark);line-height:1.6"></div>
+
+        <button type="submit" class="btn-teal" id="btn-submit" style="min-width:200px">Confirmar Reserva</button>
+        <a href="/medicamentos.html" class="btn-outline-teal" style="margin-left:12px">Cancelar</a>
+      </form>
+    </div>
+  </div>
+
+  <!-- SUCCESS SECTION -->
+  <div id="success-section" style="display:none;padding:40px 24px">
+    <div class="success-box">
+      <div class="success-icon">✅</div>
+      <h2>Reserva Confirmada!</h2>
+      <p style="color:var(--muted)">Seu código de reserva:</p>
+      <div id="reservation-code" class="reservation-code">ECO-000-2026</div>
+      <p id="success-post-info" style="color:var(--muted);font-size:.9rem;margin:12px 0"></p>
+      <p style="color:var(--muted);font-size:.85rem">⏰ Válida por 48 horas. Leve um documento com foto na retirada.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px">
+        <a href="/historico.html" class="btn-teal">Ver meu histórico</a>
+        <a href="/medicamentos.html" class="btn-outline-teal">Ver outros medicamentos</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <a class="brand" href="/" aria-label="EcoMed Brasil – início">
+    <img src="/assets/logo-ecomed.jfif" width="424" height="133" alt="EcoMed Brasil">
+  </a>
+  <p>Informação que cuida.<br>Descarte que transforma.</p>
+  <nav aria-label="Links do rodapé">
+    <a href="/sobre.html">O projeto</a>
+    <a href="/aprender.html">Orientações</a>
+    <a href="/medicamentos.html">Medicamentos</a>
+    <a href="/privacidade.html">Privacidade</a>
+  </nav>
+  <small>Projeto educacional · Dados geográficos: OpenStreetMap</small>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var params = new URLSearchParams(window.location.search);
+  var id = params.get('id');
+  var med = id ? medsDb.getMedicineById(id) : null;
+
+  if (!med) {
+    document.getElementById('form-section').innerHTML =
+      '<div class="inner-page"><p style="padding:40px 0;color:var(--muted)">Medicamento não encontrado. <a href="/medicamentos.html" class="btn-outline-teal" style="margin-left:12px">Ver todos</a></p></div>';
+    return;
+  }
+
+  // Show medicine summary
+  document.getElementById('med-summary').innerHTML =
+    '<div class="medicine-card-title"><h3>' + med.name + ' ' + med.dosage + '</h3>' + medsUi.renderTariffBadge(med.tariff) + '</div>' +
+    '<p class="category">' + med.category + '</p>' +
+    '<p class="stock-ok" style="margin:0">✓ ' + med.stock + ' unidades disponíveis</p>' +
+    '<div style="margin-top:10px"><span class="ecocoins-pill">🌱 ' + med.eco_coins + ' EcoCoins</span></div>';
+
+  // EcoCoins info on method change
+  var methodSel = document.getElementById('req-method');
+  var ecInfo = document.getElementById('ecocoins-info');
+  methodSel.addEventListener('change', function () {
+    if (methodSel.value === 'ecocoins') {
+      var prof = medsDb.getProfile();
+      var qty = parseInt(document.getElementById('req-qty').value) || 1;
+      var cost = med.eco_coins * qty;
+      var sufficient = prof.eco_coins >= cost;
+      ecInfo.style.display = 'block';
+      ecInfo.innerHTML = '🌱 Saldo atual: <strong>' + prof.eco_coins + ' EcoCoins</strong>. ' +
+        'Custo desta reserva: <strong>' + cost + ' EcoCoins</strong>. ' +
+        (sufficient ? '✓ Saldo suficiente.' : '⚠ Saldo insuficiente. Escolha outra modalidade.');
+    } else {
+      ecInfo.style.display = 'none';
+    }
+  });
+
+  // Form submit
+  document.getElementById('solicitar-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var qty = parseInt(document.getElementById('req-qty').value) || 1;
+    var method = methodSel.value;
+    var prof = medsDb.getProfile();
+
+    if (method === 'ecocoins' && prof.eco_coins < med.eco_coins * qty) {
+      alert('Saldo de EcoCoins insuficiente. Escolha outra modalidade de retirada.');
+      return;
+    }
+
+    var post = med.posts && med.posts[0] ? medsDb.getHealthPostById(med.posts[0]) : null;
+    var req = medsDb.createRequest({
+      medicine_id: med.id,
+      medicine_name: med.name + ' ' + med.dosage,
+      quantity: qty,
+      requester_name: document.getElementById('req-nome').value,
+      requester_cpf: document.getElementById('req-cpf').value,
+      requester_email: document.getElementById('req-email').value,
+      post_id: post ? post.id : null,
+      method: method
+    });
+
+    if (method === 'ecocoins') {
+      medsDb.addTransaction({
+        id: 'tx-' + Date.now(),
+        type: 'debit',
+        amount: med.eco_coins * qty,
+        description: 'Reserva: ' + med.name + ' ' + med.dosage,
+        created_at: new Date().toISOString()
+      });
+    }
+
+    // Show success
+    document.getElementById('form-section').style.display = 'none';
+    document.getElementById('success-section').style.display = 'block';
+    document.getElementById('reservation-code').textContent = req.reservation_code;
+    document.getElementById('success-post-info').textContent = post
+      ? '📍 ' + post.name + '  ·  ' + post.address + '  ·  ' + post.hours
+      : '';
+  });
+});
+</script>
+</body>
+</html>
+

@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Meu Histórico de doações, reservas e saldo de EcoCoins na rede EcoMed Farmácia Solidária.">
+  <title>EcoMed — Meu Histórico</title>
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/ui.js" defer></script>
+  <script src="/js/meds-db.js" defer></script>
+  <script src="/js/meds-ui.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<header class="header">
+  <a class="brand" href="/" aria-label="EcoMed Brasil – início">
+    <img src="/assets/logo-ecomed.jfif" width="424" height="133" alt="EcoMed Brasil">
+  </a>
+  <nav aria-label="Navegação principal">
+    <a href="/">Início</a>
+    <a href="/descarte.html">Descarte</a>
+    <a href="/recipiente.html">Recipiente</a>
+    <a href="/aprender.html">Aprender</a>
+    <a href="/medicamentos.html">Medicamentos</a>
+    <a href="/doar.html">Doar Remédio</a>
+    <a href="/historico.html" aria-current="page">Histórico</a>
+    <a href="/sobre.html">Sobre</a>
+  </nav>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-navigation">Menu<span aria-hidden="true"></span></button>
+  <nav id="mobile-navigation" class="mobile-navigation" aria-label="Navegação móvel" hidden>
+    <a href="/">Início</a>
+    <a href="/descarte.html">Descarte</a>
+    <a href="/recipiente.html">Recipiente</a>
+    <a href="/aprender.html">Aprender</a>
+    <a href="/medicamentos.html">Medicamentos</a>
+    <a href="/doar.html">Doar Remédio</a>
+    <a href="/historico.html" aria-current="page">Histórico</a>
+    <a href="/painel.html">Painel SUS</a>
+    <a href="/sobre.html">Sobre</a>
+    <a href="/privacidade.html">Privacidade</a>
+  </nav>
+</header>
+
+<main id="conteudo">
+  <section class="page-banner">
+    <p class="eyebrow">Farmácia Solidária</p>
+    <h1>Meu Histórico</h1>
+    <p>Acompanhe suas doações, reservas ativas e extrato de EcoCoins acumulados.</p>
+  </section>
+
+  <div class="inner-page">
+    <div class="ecocoins-banner">
+      <div>
+        <div class="label">🌱 Saldo de EcoCoins</div>
+        <div id="balance" class="balance">0</div>
+      </div>
+      <div style="flex:1">
+        <p style="margin:0;opacity:.9;font-size:0.95rem">EcoCoins são moedas de incentivo ecológico ganhas ao doar medicamentos e participar do descarte correto. Elas podem ser usadas para obter medicamentos na rede solidária.</p>
+      </div>
+    </div>
+
+    <div class="tab-nav" role="tablist">
+      <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-overview">Visão Geral</button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-doacoes">Minhas Doações</button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-reservas">Minhas Reservas</button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-extrato">Extrato EcoCoins</button>
+    </div>
+
+    <!-- Visão Geral -->
+    <div id="tab-overview" class="tab-panel active" role="tabpanel">
+      <!-- renderizado via JS -->
+    </div>
+
+    <!-- Minhas Doações -->
+    <div id="tab-doacoes" class="tab-panel" role="tabpanel">
+      <!-- renderizado via JS -->
+    </div>
+
+    <!-- Minhas Reservas -->
+    <div id="tab-reservas" class="tab-panel" role="tabpanel">
+      <!-- renderizado via JS -->
+    </div>
+
+    <!-- Extrato EcoCoins -->
+    <div id="tab-extrato" class="tab-panel" role="tabpanel">
+      <!-- renderizado via JS -->
+    </div>
+  </div>
+</main>
+
+<footer>
+  <a class="brand" href="/" aria-label="EcoMed Brasil – início">
+    <img src="/assets/logo-ecomed.jfif" width="424" height="133" alt="EcoMed Brasil">
+  </a>
+  <p>Informação que cuida.<br>Descarte que transforma.</p>
+  <nav aria-label="Links do rodapé">
+    <a href="/sobre.html">O projeto</a>
+    <a href="/aprender.html">Orientações</a>
+    <a href="/medicamentos.html">Medicamentos</a>
+    <a href="/privacidade.html">Privacidade</a>
+  </nav>
+  <small>Projeto educacional · Dados geográficos: OpenStreetMap</small>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  function updateData() {
+    var prof = medsDb.getProfile();
+    var donations = medsDb.getDonations();
+    var requests = medsDb.getRequests();
+    var txs = medsDb.getTransactions();
+
+    document.getElementById('balance').textContent = prof.eco_coins;
+
+    var totalCredit = txs.filter(function(t){ return t.type === 'credit'; }).reduce(function(s,t){ return s + t.amount; }, 0);
+    var totalDebit = txs.filter(function(t){ return t.type === 'debit'; }).reduce(function(s,t){ return s + t.amount; }, 0);
+
+    // Overview KPIs
+    document.getElementById('tab-overview').innerHTML =
+      '<div class="kpi-grid">' +
+        '<div class="kpi-card"><div class="kpi-value">' + donations.length + '</div><div class="kpi-label">Doações feitas</div></div>' +
+        '<div class="kpi-card"><div class="kpi-value">' + requests.filter(function(r){ return r.status === 'active'; }).length + '</div><div class="kpi-label">Reservas ativas</div></div>' +
+        '<div class="kpi-card"><div class="kpi-value">' + totalCredit + '</div><div class="kpi-label">EcoCoins recebidos</div></div>' +
+        '<div class="kpi-card"><div class="kpi-value">' + totalDebit + '</div><div class="kpi-label">EcoCoins utilizados</div></div>' +
+      '</div>' +
+      '<div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">' +
+        '<a href="/doar.html" class="btn-teal">Fazer Nova Doação</a>' +
+        '<a href="/medicamentos.html" class="btn-outline-teal">Explorar Medicamentos</a>' +
+      '</div>';
+
+    // Doações
+    if (donations.length) {
+      document.getElementById('tab-doacoes').innerHTML =
+        '<div style="overflow-x:auto"><table class="data-table">' +
+        '<thead><tr><th>Medicamento</th><th>Qtd</th><th>Validade</th><th>Posto</th><th>Status</th><th>Data</th></tr></thead><tbody>' +
+        donations.map(function(d) {
+          var post = medsDb.getHealthPostById(d.post_id);
+          var stClass = d.status === 'approved' ? 'badge-approved' : (d.status === 'rejected' ? 'badge-rejected' : 'badge-pending');
+          var stLabel = d.status === 'approved' ? 'Aprovada' : (d.status === 'rejected' ? 'Recusada' : 'Pendente');
+          return '<tr>' +
+            '<td><strong>' + (d.medicine || '-') + '</strong></td>' +
+            '<td>' + (d.quantity || 1) + '</td>' +
+            '<td>' + (d.expiry || '-') + '</td>' +
+            '<td>' + (post ? post.name : '-') + '</td>' +
+            '<td><span class="badge ' + stClass + '">' + stLabel + '</span></td>' +
+            '<td>' + new Date(d.created_at).toLocaleDateString('pt-BR') + '</td>' +
+          '</tr>';
+        }).join('') +
+        '</tbody></table></div>';
+    } else {
+      document.getElementById('tab-doacoes').innerHTML =
+        '<p style="color:var(--muted);padding:24px 0">Nenhuma doação registrada ainda. <a href="/doar.html" class="btn-outline-teal" style="margin-left:12px">Doe agora</a></p>';
+    }
+
+    // Reservas
+    if (requests.length) {
+      document.getElementById('tab-reservas').innerHTML =
+        '<div style="overflow-x:auto"><table class="data-table">' +
+        '<thead><tr><th>Medicamento</th><th>Qtd</th><th>Código</th><th>Posto</th><th>Modalidade</th><th>Válido até</th><th>Status</th></tr></thead><tbody>' +
+        requests.map(function(r) {
+          var post = medsDb.getHealthPostById(r.post_id);
+          var exp = new Date(r.expires_at);
+          var stLabel = r.status === 'active' ? 'Ativa' : r.status;
+          return '<tr>' +
+            '<td><strong>' + (r.medicine_name || r.medicine_id) + '</strong></td>' +
+            '<td>' + (r.quantity || 1) + '</td>' +
+            '<td><code class="reservation-code" style="font-size:0.85rem;padding:4px 10px">' + r.reservation_code + '</code></td>' +
+            '<td>' + (post ? post.name : '-') + '</td>' +
+            '<td>' + (r.method === 'ecocoins' ? 'EcoCoins' : (r.method === 'cadunico' ? 'CadÚnico' : 'Presencial')) + '</td>' +
+            '<td>' + exp.toLocaleDateString('pt-BR') + ' ' + exp.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}) + '</td>' +
+            '<td><span class="badge badge-active">' + stLabel + '</span></td>' +
+          '</tr>';
+        }).join('') +
+        '</tbody></table></div>';
+    } else {
+      document.getElementById('tab-reservas').innerHTML =
+        '<p style="color:var(--muted);padding:24px 0">Nenhuma reserva ativa encontrada. <a href="/medicamentos.html" class="btn-outline-teal" style="margin-left:12px">Ver catálogo</a></p>';
+    }
+
+    // Extrato
+    if (txs.length) {
+      document.getElementById('tab-extrato').innerHTML =
+        '<div style="overflow-x:auto"><table class="data-table">' +
+        '<thead><tr><th>Tipo</th><th>Descrição</th><th>EcoCoins</th><th>Data</th></tr></thead><tbody>' +
+        txs.map(function(t) {
+          var isCredit = t.type === 'credit';
+          return '<tr>' +
+            '<td><span class="badge ' + (isCredit ? 'badge-approved' : 'badge-rejected') + '">' + (isCredit ? '+ Crédito' : '- Débito') + '</span></td>' +
+            '<td>' + t.description + '</td>' +
+            '<td style="font-weight:700;color:' + (isCredit ? '#16a34a' : '#dc2626') + '">' + (isCredit ? '+' : '-') + t.amount + '</td>' +
+            '<td>' + new Date(t.created_at).toLocaleDateString('pt-BR') + '</td>' +
+          '</tr>';
+        }).join('') +
+        '</tbody></table></div>';
+    } else {
+      document.getElementById('tab-extrato').innerHTML =
+        '<p style="color:var(--muted);padding:24px 0">Nenhuma transação registrada.</p>';
+    }
+  }
+
+  // Tab switching
+  document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.tab-btn').forEach(function(b){
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      document.querySelectorAll('.tab-panel').forEach(function(p){
+        p.classList.remove('active');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      var targetId = btn.getAttribute('aria-controls');
+      var target = document.getElementById(targetId);
+      if (target) target.classList.add('active');
+    });
+  });
+
+  updateData();
+  window.addEventListener('ecomed:sync', updateData);
+});
+</script>
+</body>
+</html>

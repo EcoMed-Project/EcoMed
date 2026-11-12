@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Encontre medicamentos disponíveis para doação e retirada nas unidades parceiras da rede EcoMed.">
+  <title>EcoMed — Medicamentos Disponíveis</title>
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/ui.js" defer></script>
+  <script src="/js/meds-db.js" defer></script>
+  <script src="/js/meds-ui.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<header class="header">
+  <a class="brand" href="/" aria-label="EcoMed Brasil – início">
+    <img src="/assets/logo-ecomed.jfif" width="424" height="133" alt="EcoMed Brasil">
+  </a>
+  <nav aria-label="Navegação principal">
+    <a href="/">Início</a>
+    <a href="/descarte.html">Descarte</a>
+    <a href="/recipiente.html">Recipiente</a>
+    <a href="/aprender.html">Aprender</a>
+    <a href="/medicamentos.html" aria-current="page">Medicamentos</a>
+    <a href="/doar.html">Doar Remédio</a>
+    <a href="/historico.html">Histórico</a>
+    <a href="/sobre.html">Sobre</a>
+  </nav>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-navigation">Menu<span aria-hidden="true"></span></button>
+  <nav id="mobile-navigation" class="mobile-navigation" aria-label="Navegação móvel" hidden>
+    <a href="/">Início</a>
+    <a href="/descarte.html">Descarte</a>
+    <a href="/recipiente.html">Recipiente</a>
+    <a href="/aprender.html">Aprender</a>
+    <a href="/medicamentos.html" aria-current="page">Medicamentos</a>
+    <a href="/doar.html">Doar Remédio</a>
+    <a href="/historico.html">Histórico</a>
+    <a href="/painel.html">Painel SUS</a>
+    <a href="/sobre.html">Sobre</a>
+    <a href="/privacidade.html">Privacidade</a>
+  </nav>
+</header>
+
+<main id="conteudo">
+  <section class="page-banner">
+    <p class="eyebrow">Farmácia Solidária</p>
+    <h1>Medicamentos Disponíveis</h1>
+    <p>Encontre medicamentos para doação e retirada nas unidades parceiras da rede EcoMed.</p>
+  </section>
+
+  <div class="inner-page">
+    <div class="form-group" style="max-width:480px;margin-bottom:20px">
+      <label for="busca-med">Buscar medicamento</label>
+      <input id="busca-med" type="search" placeholder="Nome, categoria..." autocomplete="off">
+    </div>
+
+    <div class="filter-bar">
+      <div class="filter-pills" role="group" aria-label="Filtrar por categoria">
+        <button class="filter-pill active" type="button">Todos</button>
+        <button class="filter-pill" type="button">Analgésico</button>
+        <button class="filter-pill" type="button">Anti-inflamatório</button>
+        <button class="filter-pill" type="button">Antibiótico</button>
+        <button class="filter-pill" type="button">Anti-hipertensivo</button>
+        <button class="filter-pill" type="button">Antidiabético</button>
+        <button class="filter-pill" type="button">Protetor Gástrico</button>
+        <button class="filter-pill" type="button">Ansiolítico</button>
+      </div>
+      <select id="filtro-posto" style="padding:8px 14px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-size:.88rem;background:#fff;color:var(--deep)">
+        <option value="">Todos os postos</option>
+        <option value="post-001">UBS Central Dr. Paulo Freire</option>
+        <option value="post-002">Farmácia Solidária Vila Mariana</option>
+        <option value="post-003">UBS Pinheiros</option>
+        <option value="post-004">Centro de Saúde da Lapa</option>
+        <option value="post-005">Posto Integrado Mooca</option>
+      </select>
+    </div>
+
+    <div id="medicines-grid" class="medicines-grid">
+      <p style="color:var(--muted)">Carregando medicamentos...</p>
+    </div>
+    <p id="empty-msg" style="display:none;color:var(--muted);padding:40px 0;text-align:center">
+      Nenhum medicamento encontrado para os filtros selecionados.
+    </p>
+  </div>
+</main>
+
+<footer>
+  <a class="brand" href="/" aria-label="EcoMed Brasil – início">
+    <img src="/assets/logo-ecomed.jfif" width="424" height="133" alt="EcoMed Brasil">
+  </a>
+  <p>Informação que cuida.<br>Descarte que transforma.</p>
+  <nav aria-label="Links do rodapé">
+    <a href="/sobre.html">O projeto</a>
+    <a href="/aprender.html">Orientações</a>
+    <a href="/medicamentos.html">Medicamentos</a>
+    <a href="/privacidade.html">Privacidade</a>
+  </nav>
+  <small>Projeto educacional · Dados geográficos: OpenStreetMap</small>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var grid = document.getElementById('medicines-grid');
+  var emptyMsg = document.getElementById('empty-msg');
+  var busca = document.getElementById('busca-med');
+  var filtroPosto = document.getElementById('filtro-posto');
+  var activeCategory = 'Todos';
+
+  function render() {
+    var meds = medsDb.getMedicines();
+    var q = busca.value.toLowerCase().trim();
+    var posto = filtroPosto.value;
+    if (q) meds = meds.filter(function(m){ return m.name.toLowerCase().includes(q) || m.category.toLowerCase().includes(q); });
+    if (activeCategory !== 'Todos') meds = meds.filter(function(m){ return m.category.includes(activeCategory); });
+    if (posto) meds = meds.filter(function(m){ return m.posts && m.posts.includes(posto); });
+    if (meds.length) {
+      grid.innerHTML = meds.map(function(m){
+        var post = m.posts && m.posts[0] ? medsDb.getHealthPostById(m.posts[0]) : null;
+        return medsUi.renderMedicineCard(m, post ? post.name : null);
+      }).join('');
+      emptyMsg.style.display = 'none';
+    } else {
+      grid.innerHTML = '';
+      emptyMsg.style.display = 'block';
+    }
+  }
+
+  busca.addEventListener('input', render);
+  filtroPosto.addEventListener('change', render);
+
+  document.querySelectorAll('.filter-pill').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-pill').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      activeCategory = btn.textContent.trim();
+      render();
+    });
+  });
+
+  render();
+});
+</script>
+</body>
+</html>
+

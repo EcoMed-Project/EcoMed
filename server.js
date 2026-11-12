@@ -29,5 +29,9 @@ app.post("/api/container/decision", (req, res) => {
   const compartment = material === "glass" ? "vidro" : "caixas e embalagens";
   res.json({ allowed: true, compartment, reason: `Sinalização ativada para ${compartment}.` });
 });
+// Farmácia Solidária dynamic pages
+app.get("/medicamento", (_req, res) => res.sendFile(path.join(__dirname, "public", "medicamento.html")));
+app.get("/solicitar", (_req, res) => res.sendFile(path.join(__dirname, "public", "solicitar.html")));
+
 app.use((_req, res) => res.status(404).sendFile(path.join(__dirname, "public", "404.html")));
 app.listen(port, () => console.log(`EcoMed Brasil em http://localhost:${port}`));
